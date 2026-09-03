@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Confirmed - Iqbal Sweet House</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+    <!-- =========================
+         HEADER
+         ========================= -->
+
+    <header class="site-header">
+
+        <div class="top-header">
+
+            <a href="index.html" class="main-logo">
+
+                <img
+                    src="images/hero.png"
+                    alt="Iqbal Sweet House"
+                >
+
+            </a>
+
+
+            <a
+                href="index.html"
+                class="header-btn"
+            >
+
+                🏠
+
+                <span>
+
+                    <strong>
+                        Home
+                    </strong>
+
+                    <small>
+                        Back to Shop
+                    </small>
+
+                </span>
+
+            </a>
+
+
+            <a
+                href="cart.html"
+                class="cart-icon"
+            >
+
+                🛒
+
+                <span class="cart-count">
+                    0
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <nav class="category-nav">
+
+            <a href="index.html#sweets">
+                SWEETS
+            </a>
+
+            <a href="index.html#cakes">
+                CAKES
+            </a>
+
+            <a href="index.html#bakery">
+                BAKERY
+            </a>
+
+            <a href="index.html#namkeen">
+                NAMKEEN AND SWEETNESS
+            </a>
+
+            <a href="index.html#bread">
+                BREAD
+            </a>
+
+            <a href="index.html#rusks">
+                RUSKS
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================
+         ORDER SUCCESS
+         ========================= -->
+
+    <main>
+
+        <section class="order-success-page">
+
+            <!-- Green Notification -->
+
+            <div class="order-toast">
+
+                <span class="toast-check">
+                    ✓
+                </span>
+
+                <span>
+                    Your order has been placed
+                </span>
+
+            </div>
+
+
+            <!-- Success Card -->
+
+            <div class="success-card">
+
+
+                <div class="success-header">
+
+                    <h1>
+                        Thank You!
+                    </h1>
+
+                    <p>
+                        Your order has been placed successfully
+                    </p>
+
+                </div>
+
+
+                <!-- Order Status -->
+
+                <div class="order-status-row">
+
+                    <div>
+
+                        <span>
+                            Order No:
+                        </span>
+
+                        <strong id="success-order-number">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="status-box">
+
+                        <span>
+                            Status:
+                        </span>
+
+                        <strong class="received-status">
+                            Received
+                        </strong>
+
+                        <span class="status-dot"></span>
+
+                    </div>
+
+                </div>
+
+
+                <p class="order-received-text">
+
+                    Your order has been received.
+                    We might call you for confirmation
+                    or address details if required.
+
+                </p>
+
+
+
+                <!-- =====================
+                     CUSTOMER INFORMATION
+                     ===================== -->
+
+                <div class="success-section">
+
+                    <div class="success-section-title">
+
+                        <span>
+                            👤
+                        </span>
+
+                        <h2>
+                            Customer Information
+                        </h2>
+
+                    </div>
+
+
+                    <div class="success-info-grid">
+
+                        <div>
+
+                            <span>
+                                Customer Name
+                            </span>
+
+                            <strong id="success-customer-name">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Mobile Number
+                            </span>
+
+                            <strong id="success-customer-phone">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Alternate Mobile
+                            </span>
+
+                            <strong id="success-alternate-phone">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Email Address
+                            </span>
+
+                            <strong id="success-email">
+                                -
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =====================
+                     DELIVERY INFORMATION
+                     ===================== -->
+
+                <div class="success-section">
+
+                    <div class="success-section-title">
+
+                        <span>
+                            🚚
+                        </span>
+
+                        <h2>
+                            Delivery Information
+                        </h2>
+
+                    </div>
+
+
+                    <div class="success-info-grid">
+
+                        <div>
+
+                            <span>
+                                Order Type
+                            </span>
+
+                            <strong id="success-order-type">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Payment Method
+                            </span>
+
+                            <strong id="success-payment-method">
+                                Cash on Delivery
+                            </strong>
+
+                        </div>
+
+
+                        <div class="full-width">
+
+                            <span>
+                                Delivery Address
+                            </span>
+
+                            <strong id="success-address">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="full-width">
+
+                            <span>
+                                Nearest Landmark
+                            </span>
+
+                            <strong id="success-landmark">
+                                -
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =====================
+                     YOUR ORDER
+                     ===================== -->
+
+                <div class="success-section">
+
+                    <div class="success-section-title">
+
+                        <span>
+                            🛒
+                        </span>
+
+                        <h2>
+                            Your Order
+                        </h2>
+
+                    </div>
+
+
+                    <div id="success-items">
+
+                        <!-- Items loaded by JavaScript -->
+
+                    </div>
+
+
+                    <div class="success-total">
+
+                        <strong>
+                            Grand Total
+                        </strong>
+
+                        <strong id="success-total">
+                            Rs. 0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Continue Shopping -->
+<a
+    href="#"
+    class="whatsapp-order-btn"
+    onclick="sendOrderToWhatsApp(); return false;"
+>
+    📱 Send Order on WhatsApp
+</a>
+                <a
+                    href="index.html"
+                    class="back-home-btn"
+                >
+
+                    Continue Shopping
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+         ========================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Iqbal Sweet House.
+            All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

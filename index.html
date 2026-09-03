@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Iqbal Sweet House | Sahiwal Sweet Shop & Bakery</title>
+    <meta name="description"
+      content="Iqbal Sweet House Sahiwal – Fresh sweets, bakery products, namkeen, bread and rusks. Order online and enjoy delicious traditional sweets.">
+     <meta name="keywords"
+      content="Iqbal Sweet House, Sahiwal sweets, Sahiwal bakery, sweets in Sahiwal, mithai Sahiwal, bakery products Sahiwal, rusks Sahiwal">
+
+<meta name="author"
+      content="Iqbal Sweet House">
+      <!-- Social Media Preview -->
+<meta property="og:title"
+      content="Iqbal Sweet House | Sahiwal">
+
+<meta property="og:description"
+      content="Fresh sweets, bakery products, namkeen, bread and rusks. Order online from Iqbal Sweet House.">
+
+<meta property="og:image"
+      content="images/hero.png">
+
+<meta property="og:type"
+      content="website">
+
+<meta name="twitter:card"
+      content="summary_large_image">
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+      <link rel="icon" type="image/png" href="images/hero.png">
+
+    <link rel="stylesheet" href="style.css">
+    
+    
+</head>
+
+<body>
+
+    <!-- =========================
+         HEADER
+         ========================= -->
+
+    <header class="site-header">
+
+        <div class="top-header">
+
+            <!-- Change Location -->
+          <a
+    href="https://share.google/YQTTo2uFdgDic8Qnb"
+    target="_blank"
+    class="header-btn location-btn"
+    aria-label="Open Iqbal Sweet House location"
+>
+    📍
+    
+</a>
+
+            <!-- Phone -->
+           <a href="tel:03120606806"
+   class="header-btn phone-btn"
+   aria-label="Call Iqbal Sweet House">
+    📞
+</a>
+
+            <!-- Logo -->
+            <a href="#home" class="main-logo">
+                <img src="images/hero.png" alt="Iqbal Sweet House Logo">
+            </a>
+
+            <!-- Cart -->
+            <a href="cart.html" class="cart-icon">
+                🛒
+                <span class="cart-count">0</span>
+            </a>
+
+        </div>
+
+
+        <!-- Category Navigation -->
+
+        <nav class="category-nav">
+
+            <a href="#sweets" class="active">SWEETS</a>
+            <a href="#cakes">CAKES</a>
+            <a href="#bakery">BAKERY</a>
+            <a href="#namkeen">NAMKEEN AND SWEETNESS</a>
+            <a href="#bread">BREAD</a>
+            <a href="#rusks">RUSKS</a>
+
+        </nav>
+
+    </header>
+
+    <!-- =========================
+     PRODUCT DETAIL POPUP
+     ========================= -->
+
+<div id="product-modal" class="product-modal">
+
+    <div class="product-modal-box">
+
+        <button class="close-modal" onclick="closeProductModal()">
+            ×
+        </button>
+
+        <div class="modal-content">
+
+            <div class="modal-image">
+                <img id="modal-product-image" src="" alt="">
+            </div>
+
+            <div class="modal-details">
+
+                <h2 id="modal-product-name">
+                    Product Name
+                </h2>
+
+                <p id="modal-product-description">
+                    Fresh & Delicious
+                </p>
+
+                <h3 id="modal-product-price">
+                    Rs. 1,400 / KG
+                </h3>
+
+
+                <!-- Quantity -->
+                 <!-- Weight Selection -->
+<div class="weight-box">
+
+    <span>Select Weight</span>
+
+    <div class="weight-options">
+    <button
+        type="button"
+        class="weight-option"
+        onclick="selectWeight(0.25, this)">
+        250 Gram
+    </button>
+
+    <button
+        type="button"
+        class="weight-option"
+        onclick="selectWeight(0.5, this)">
+        Half KG
+    </button>
+    <button
+    type="button"
+    class="weight-option"
+    onclick="selectWeight(1, this)">
+    1 KG
+</button>
+</div>
+
+</div>
+
+                <div class="quantity-box">
+
+                    <span>Quantity</span>
+
+                    <div class="quantity-controls">
+
+                        <button onclick="changeModalQuantity(-1)">
+                            −
+                        </button>
+
+                        <span id="modal-quantity">
+                            1
+                        </span>
+
+                        <button onclick="changeModalQuantity(1)">
+                            +
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="modal-add-cart"
+                    onclick="addModalProductToCart()">
+
+                    Add to Cart
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+    <!-- =========================
+         MAIN
+         ========================= -->
+
+    <main>
+
+
+        <!-- =========================
+             HERO SLIDER
+             ========================= -->
+
+        <section id="home" class="hero">
+
+            <!-- Previous Button -->
+
+            <button class="slider-btn prev-btn" onclick="previousSlide()">
+                ❮
+            </button>
+
+
+            <div class="hero-slider">
+
+
+                <!-- Slide 1 - Gulab Jamun -->
+
+                <div class="hero-slide active">
+
+                    <div class="hero-text">
+
+                        <h1>Gulab Jamun</h1>
+
+                        <div class="hero-decoration">
+                            <span></span>
+                            •••
+                            <span></span>
+                        </div>
+
+                        <p>
+                            Sweetness that melts in every bite!
+                        </p>
+
+                        <a href="#sweets" class="hero-btn">
+                            Order Now
+                        </a>
+
+                    </div>
+
+
+                    <div class="hero-image">
+
+                        <img
+                            src="images/2.jpg"
+                            alt="Gulab Jamun">
+
+                    </div>
+
+                </div>
+
+
+                <!-- Slide 2 - Rasgulla -->
+
+                <div class="hero-slide">
+
+                    <div class="hero-text">
+
+                        <h1>Rasgulla</h1>
+
+                        <div class="hero-decoration">
+                            <span></span>
+                            •••
+                            <span></span>
+                        </div>
+
+                        <p>
+                            Pure bliss in every syrupy bite!
+                        </p>
+
+                        <a href="#sweets" class="hero-btn">
+                            Order Now
+                        </a>
+
+                    </div>
+
+
+                    <div class="hero-image">
+
+                        <img
+                            src="images/3.jpg"
+                            alt="Rasgulla">
+
+                    </div>
+
+                </div>
+
+
+                <!-- Slide 3 - Barfi -->
+
+                <div class="hero-slide">
+
+                    <div class="hero-text">
+
+                        <h1>Barfi</h1>
+
+                        <div class="hero-decoration">
+                            <span></span>
+                            •••
+                            <span></span>
+                        </div>
+
+                        <p>
+                            Premium taste made with love!
+                        </p>
+
+                        <a href="#sweets" class="hero-btn">
+                            Order Now
+                        </a>
+
+                    </div>
+
+
+                    <div class="hero-image">
+
+                        <img
+                            src="images/1.webp"
+                            alt="Barfi">
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- Next Button -->
+
+            <button class="slider-btn next-btn" onclick="nextSlide()">
+                ❯
+            </button>
+
+
+            <!-- Slider Dots -->
+
+            <div class="slider-dots">
+
+                <button
+                    class="dot active"
+                    onclick="showSlide(0)">
+                </button>
+
+                <button
+                    class="dot"
+                    onclick="showSlide(1)">
+                </button>
+
+                <button
+                    class="dot"
+                    onclick="showSlide(2)">
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             POPULAR SWEETS
+             ========================= -->
+
+       <!-- =========================
+     POPULAR SWEETS
+     ========================= -->
+
+<section id="sweets" class="sweets-section">
+
+    <p class="section-small-title">
+        OUR SPECIALITIES
+    </p>
+
+    <h2>
+        Popular Sweets
+    </h2>
+
+
+    <div class="products">
+
+
+        <!-- =====================
+             BARFI
+             ===================== -->
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                <img
+                    src="images/1.webp"
+                    alt="Barfi"
+                >
+
+                <span class="product-badge">
+                    Popular
+                </span>
+
+            </div>
+
+
+            <div class="product-info">
+
+                <h3>
+                    Barfi
+                </h3>
+
+                <p>
+                    Premium Quality
+                </p>
+
+                <h4>
+                    Rs. 1,400 / KG
+                </h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="openProductModal(
+                        'Barfi',
+                        1400,
+                        'images/1.webp',
+                        'Premium Quality'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================
+             GULAB JAMUN
+             ===================== -->
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                <img
+                    src="images/2.jpg"
+                    alt="Gulab Jamun"
+                >
+
+            </div>
+
+
+            <div class="product-info">
+
+                <h3>
+                    Gulab Jamun
+                </h3>
+
+                <p>
+                    Fresh & Delicious
+                </p>
+
+                <h4>
+                    Rs. 1,400 / KG
+                </h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="openProductModal(
+                        'Gulab Jamun',
+                        1400,
+                        'images/2.jpg',
+                        'Fresh & Delicious'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================
+             RASGULLA
+             ===================== -->
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                <img
+                    src="images/3.jpg"
+                    alt="Rasgulla"
+                >
+
+                <span class="product-badge">
+                    Best Seller
+                </span>
+
+            </div>
+
+
+            <div class="product-info">
+
+                <h3>
+                    Rasgulla
+                </h3>
+
+                <p>
+                    Soft & Fresh
+                </p>
+
+                <h4>
+                    Rs. 1,400 / KG
+                </h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="openProductModal(
+                        'Rasgulla',
+                        1400,
+                        'images/3.jpg',
+                        'Soft & Fresh'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================
+             MOTICHOOR LADDU
+             ===================== -->
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                <img
+                    src="images/4.webp"
+                    alt="Motichoor Laddu"
+                >
+
+            </div>
+
+
+            <div class="product-info">
+
+                <h3>
+                    Motichoor Laddu
+                </h3>
+
+                <p>
+                    Fresh & Delicious
+                </p>
+
+                <h4>
+                    Rs. 1,500 / KG
+                </h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="openProductModal(
+                        'Motichoor Laddu',
+                        1500,
+                        'images/4.webp',
+                        'Fresh & Delicious'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================
+             MIX SWEETS
+             ===================== -->
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                <img
+                    src="images/5.jpg"
+                    alt="Mix Sweets"
+                >
+
+            </div>
+
+
+            <div class="product-info">
+
+                <h3>
+                    Mix Sweets
+                </h3>
+
+                <p>
+                    Our Special Mix
+                </p>
+
+                <h4>
+                    Rs. 1,400 / KG
+                </h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="openProductModal(
+                        'Mix Sweets',
+                        1400,
+                        'images/5.jpg',
+                        'Our Special Mix'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================
+             IMARTI
+             ===================== -->
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                <img
+                    src="images/6.jpeg"
+                    alt="Imarti"
+                >
+
+            </div>
+
+
+            <div class="product-info">
+
+                <h3>
+                    Imarti
+                </h3>
+
+                <p>
+                    Fresh & Delicious
+                </p>
+
+                <h4>
+                    Rs. 1,500 / KG
+                </h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="openProductModal(
+                        'Imarti',
+                        1500,
+                        'images/6.jpeg',
+                        'Fresh & Delicious'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+<!-- =========================
+     BAKERY BANNER
+     ========================= -->
+
+<div class="category-banner">
+
+    <div class="category-banner-text">
+        Bakery
+    </div>
+
+    <div class="category-banner-image">
+        <img
+            src="images/15.jfif"
+            alt="Bakery Mix Biscuits"
+        >
+    </div>
+
+</div>
+<!-- =========================
+     BAKERY
+     ========================= -->
+
+<section id="bakery" class="sweets-section">
+
+    <p class="section-small-title">
+        FRESH FROM OUR BAKERY
+    </p>
+
+    <h2>
+        Bakery
+    </h2>
+
+
+    <div class="products">
+
+
+        <!-- =====================
+             MIX BISCUITS
+             ===================== -->
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                <img
+                    src="images/15.jfif"
+                    alt="Mix Biscuits"
+                >
+
+                <span class="product-badge">
+                    Popular
+                </span>
+
+            </div>
+
+
+            <div class="product-info">
+
+                <h3>
+                    Mix Biscuits
+                </h3>
+
+                <p>
+                    Fresh & Crispy
+                </p>
+
+                <h4>
+                    Rs. 1,600 / KG
+                </h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="openProductModal(
+                        'Mix Biscuits',
+                        1600,
+                        'images/15.jfif',
+                        'Fresh & Crispy'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================
+             CAKE RUSK
+             ===================== -->
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                <img
+                    src="images/16.jfif"
+                    alt="Cake Rusk"
+                >
+
+            </div>
+
+
+            <div class="product-info">
+
+                <h3>
+                    Cake Rusk
+                </h3>
+
+                <p>
+                    Crunchy & Delicious
+                </p>
+
+                <h4>
+                    Rs. 1,800 / KG
+                </h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="openProductModal(
+                        'Cake Rusk',
+                        1800,
+                        'images/16.jfif',
+                        'Crunchy & Delicious'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================
+             SWEET PUFF
+             ===================== -->
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                <img
+                    src="images/17.jpeg"
+                    alt="Sweet Puff"
+                >
+
+            </div>
+
+
+            <div class="product-info">
+
+                <h3>
+                    Sweet Puff
+                </h3>
+
+                <p>
+                    Fresh & Tasty
+                </p>
+
+                <h4>
+                    Rs. 1,800 / KG
+                </h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="openProductModal(
+                        'Sweet Puff',
+                        1800,
+                        'images/17.jpeg',
+                        'Fresh & Tasty'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================
+             NAMKEEN PUFF
+             ===================== -->
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                <img
+                    src="images/18.jpeg"
+                    alt="Namkeen Puff"
+                >
+
+            </div>
+
+
+            <div class="product-info">
+
+                <h3>
+                    Namkeen Puff
+                </h3>
+
+                <p>
+                    Crispy & Savoury
+                </p>
+
+                <h4>
+                    Rs. 1,800 / KG
+                </h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="openProductModal(
+                        'Namkeen Puff',
+                        1800,
+                        'images/18.jpeg',
+                        'Crispy & Savoury'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+<!-- =========================
+     CAKES SECTION
+     ========================= -->
+
+<section id="cakes" class="category-section">
+
+    <!-- Cakes Banner -->
+    <div class="category-banner cake-banner">
+
+        <div class="category-banner-text">
+            Cakes
+        </div>
+
+        <div class="category-banner-image">
+            <img src="images/cake-banner-picture.png"
+                 alt="Fresh Cakes">
+        </div>
+
+    </div>
+
+
+    <!-- Cake Products -->
+    <div class="products-grid cake-products">
+
+        <!-- Black Forest -->
+        <div class="product-card">
+
+            <img src="images/black-forest-cake.png"
+                 alt="Black Forest Cake">
+
+            <div class="product-info">
+
+                <h3>Black Forest Cake</h3>
+
+                <p>Fresh & Delicious</p>
+
+                <strong>From Rs. 600</strong>
+
+                <button
+                    class="add-to-cart-btn"
+                    onclick="openCakeModal('Black Forest Cake', 600, 1200, 'images/black-forest-cake.png')">
+                    Add to Cart
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- Pineapple Cake -->
+        <div class="product-card">
+
+            <img src="images/pineapple-cake.png"
+                 alt="Pineapple Cake">
+
+            <div class="product-info">
+
+                <h3>Pineapple Cake</h3>
+
+                <p>Fresh & Delicious</p>
+
+                <strong>From Rs. 600</strong>
+
+                <button
+                    class="add-to-cart-btn"
+                    onclick="openCakeModal('Pineapple Cake', 600, 1200, 'images/pineapple-cake.png')">
+                    Add to Cart
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- Almond Cake -->
+        <div class="product-card">
+
+            <img src="images/almond-cake.png"
+                 alt="Almond Cake">
+
+            <div class="product-info">
+
+                <h3>Almond Cake</h3>
+
+                <p>Rich & Delicious</p>
+
+                <strong>From Rs. 700</strong>
+
+                <button
+                    class="add-to-cart-btn"
+                    onclick="openCakeModal('Almond Cake', 700, 1400, 'images/almond-cake.png')">
+                    Add to Cart
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CAKE SIZE MODAL
+     ========================= -->
+
+<div id="cake-size-modal" class="cake-size-modal">
+
+    <div class="cake-size-box">
+
+        <button class="cake-modal-close"
+                onclick="closeCakeModal()">
+            ×
+        </button>
+
+        <img id="cake-modal-image" src="" alt="Cake">
+
+        <h2 id="cake-modal-name">Cake</h2>
+
+        <p>Select Cake Size</p>
+
+        <div class="cake-size-options">
+
+            <button id="cake-one-pound"
+                    onclick="selectCakeSize(1)">
+                1 Pound
+                <span id="cake-one-price"></span>
+            </button>
+
+            <button id="cake-two-pound"
+                    onclick="selectCakeSize(2)">
+                2 Pound
+                <span id="cake-two-price"></span>
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- =========================
+     NAMKEEN AND SWEETNESS
+     ========================= -->
+
+<div class="category-banner">
+    <div class="category-banner-text">
+        Namkeen And Sweetness
+    </div>
+
+    <div class="category-banner-image">
+        <img
+            src="images/15.jfif"
+            alt="Namkeen And Sweetness"
+        >
+    </div>
+</div>
+
+<section id="namkeen" class="sweets-section">
+
+    <p class="section-small-title">
+        FRESH & DELICIOUS
+    </p>
+
+    <h2>
+        Namkeen And Sweetness
+    </h2>
+
+    <div class="products">
+
+        <!-- NAMAK PARAY -->
+        <div class="product-card">
+
+            <div class="product-image">
+                <img
+                    src="images/namak-paray.png"
+                    alt="Namak Paray"
+                >
+
+                <span class="product-badge">
+                    Hot Selling
+                </span>
+            </div>
+
+            <div class="product-info">
+
+                <h3>Namak Paray</h3>
+
+                <p>Crispy & Delicious</p>
+
+                <h4>Rs. 1,300 / KG</h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="openProductModal(
+                        'Namak Paray',
+                        1300,
+                        'images/namak-paray.png',
+                        'Crispy & Delicious'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- BADANA -->
+        <div class="product-card">
+
+            <div class="product-image">
+                <img
+                    src="images/badana.png"
+                    alt="Badana"
+                >
+            </div>
+
+            <div class="product-info">
+
+                <h3>Badana</h3>
+
+                <p>Fresh & Crunchy</p>
+
+                <h4>Rs. 1,300 / KG</h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="openProductModal(
+                        'Badana',
+                        1300,
+                        'images/badana.png',
+                        'Fresh & Crunchy'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- NAMKEEN SAWAIYAAN -->
+        <div class="product-card">
+
+            <div class="product-image">
+                <img
+                    src="images/namkeen-sawaiyaan.png"
+                    alt="Namkeen Sawaiyaan"
+                >
+            </div>
+
+            <div class="product-info">
+
+                <h3>Namkeen Sawaiyaan</h3>
+
+                <p>Fresh & Delicious</p>
+
+                <h4>Rs. 1,300 / KG</h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="openProductModal(
+                        'Namkeen Sawaiyaan',
+                        1300,
+                        'images/namkeen-sawaiyaan.png',
+                        'Fresh & Delicious'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+        </div>
+
+
+        <!-- SPECIAL NIMKO -->
+        <div class="product-card">
+
+            <div class="product-image">
+                <img
+                    src="images/special-nimko.png"
+                    alt="Special Nimko"
+                >
+            </div>
+
+            <div class="product-info">
+
+                <h3>Special Nimko</h3>
+
+                <p>Our Special Mix</p>
+
+                <h4>Rs. 1,400 / KG</h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="openProductModal(
+                        'Special Nimko',
+                        1400,
+                        'images/special-nimko.png',
+                        'Our Special Mix'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+        </div>
+
+    </div>
+
+</section>
+<!-- =========================
+     BREAD SECTION
+     ========================= -->
+
+<section id="bread" class="category-section">
+
+    <!-- Bread Banner -->
+    <div class="category-banner bread-banner">
+
+        <div class="category-banner-text">
+            Bread
+        </div>
+
+        <div class="category-banner-image">
+            <img
+                src="images/brown-bread.png"
+                alt="Bread"
+            >
+        </div>
+
+    </div>
+
+
+    <!-- Bread Products -->
+    <div class="products">
+
+
+        <!-- =====================
+             MILKY BREAD
+             ===================== -->
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                <img
+                    src="images/milky-bread.png"
+                    alt="Milky Bread"
+                >
+
+            </div>
+
+            <div class="product-info">
+
+                <h3>Milky Bread</h3>
+
+                <p>Soft & Fresh</p>
+
+                <h4>From Rs. 95</h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="openBreadModal(
+                        'Milky Bread',
+                        95,
+                        180,
+                        'images/milky-bread.png'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================
+             PLAIN BREAD
+             ===================== -->
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                <img
+                    src="images/plain-bread.png"
+                    alt="Plain Bread"
+                >
+
+            </div>
+
+            <div class="product-info">
+
+                <h3>Plain Bread</h3>
+
+                <p>Fresh & Soft</p>
+
+                <h4>From Rs. 95</h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="openBreadModal(
+                        'Plain Bread',
+                        95,
+                        180,
+                        'images/plain-bread.png'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================
+             BROWN BREAD
+             ===================== -->
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                <img
+                    src="images/brown-bread.png"
+                    alt="Brown Bread"
+                >
+
+            </div>
+
+            <div class="product-info">
+
+                <h3>Brown Bread</h3>
+
+                <p>Healthy & Fresh</p>
+
+                <h4>Rs. 150</h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="addToCart(
+                        'Brown Bread',
+                        150,
+                        'images/brown-bread.png'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================
+             BAND
+             ===================== -->
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                <img
+                    src="images/band.png"
+                    alt="Band"
+                >
+
+            </div>
+
+            <div class="product-info">
+
+                <h3>Band</h3>
+
+                <p>Fresh & Soft</p>
+
+                <h4>Rs. 50</h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="addToCart(
+                        'Band',
+                        50,
+                        'images/band.png'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================
+             SHEERMAL
+             ===================== -->
+
+        <div class="product-card">
+
+            <div class="product-image">
+
+                <img
+                    src="images/sheermal.png"
+                    alt="Sheermal"
+                >
+
+            </div>
+
+            <div class="product-info">
+
+                <h3>Sheermal</h3>
+
+                <p>Soft & Delicious</p>
+
+                <h4>Rs. 80</h4>
+
+                <button
+                    class="add-cart-btn"
+                    onclick="addToCart(
+                        'Sheermal',
+                        80,
+                        'images/sheermal.png'
+                    )"
+                >
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= RUSKS ================= -->
+
+<section id="rusks" class="category-section">
+
+    <!-- Rusk Banner -->
+    <div class="category-banner rusks-banner">
+        <div class="banner-text">
+            <h1>Rusks</h1>
+        </div>
+        <img src="images/GOL rus.jpg" alt="Rusks">
+    </div>
+
+    <div class="section-heading">
+        
+    </div>
+
+    <div class="products-grid">
+
+        <!-- GOL SPECIAL RUSK -->
+        <div class="product-card"
+             onclick="openProductModal(
+                'Gol Special Rusk',
+                350,
+                'images/GOL rus.jpg',
+                'Fresh & Crispy'
+             )">
+
+            <img src="images/GOL rus.jpg" alt="Gol Special Rusk">
+
+            <h3>Gol Special Rusk</h3>
+
+            <p>Fresh & Crispy</p>
+
+            <strong>From Rs. 180</strong>
+
+            <button onclick="event.stopPropagation(); openProductModal(
+                'Gol Special Rusk',
+                350,
+                'images/GOL rus.jpg',
+                'Fresh & Crispy'
+            )">
+                Add to Cart
+            </button>
+
+        </div>
+
+
+        <!-- CUT RUSK -->
+        <div class="product-card"
+             onclick="openProductModal(
+                'Cut Rusk',
+                350,
+                'images/cut-rusk.jfif',
+                'Fresh & Crispy'
+             )">
+
+            <img src="images/cut-rusk.jfif" alt="Cut Rusk">
+
+            <h3>Cut Rusk</h3>
+
+            <p>Fresh & Crispy</p>
+
+            <strong>From Rs. 180</strong>
+
+            <button onclick="event.stopPropagation(); openProductModal(
+                'Cut Rusk',
+                350,
+                'images/cut-rusk.jfif',
+                'Fresh & Crispy'
+            )">
+                Add to Cart
+            </button>
+
+        </div>
+
+
+        <!-- BURGER SPECIAL RUSK -->
+        <div class="product-card"
+             onclick="openProductModal(
+                'Burger Special Rusk',
+                350,
+                'images/BURGER RUS.jfif',
+                'Fresh & Crispy'
+             )">
+
+            <img src="images/BURGER RUS.jfif" alt="Burger Special Rusk">
+
+            <h3>Burger Special Rusk</h3>
+
+            <p>Fresh & Crispy</p>
+
+            <strong>From Rs. 180</strong>
+
+            <button onclick="event.stopPropagation(); openProductModal(
+                'Burger Special Rusk',
+                350,
+                'images/BURGER RUS.jfif',
+                'Fresh & Crispy'
+            )">
+                Add to Cart
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+        <!-- =========================
+             DELIVERY
+             ========================= -->
+
+        <section class="delivery">
+
+            <h2>
+                Delivery Across Pakistan 🇵🇰
+            </h2>
+
+            <p>
+                Order your favourite sweets
+                and get them delivered anywhere in Pakistan.
+            </p>
+
+        </section>
+
+
+
+       
+
+
+
+<!-- =========================
+     FOOTER
+     ========================= -->
+<footer class="site-footer">
+
+    <div class="footer-about">
+        <h2>About Iqbal Sweet House</h2>
+
+        <p>
+            Iqbal Sweet House brings you fresh, delicious and
+            traditional sweets, bakery products and rusks.
+        </p>
+    </div>
+
+    <div class="footer-social">
+        <h3>Follow Us</h3>
+
+        <div class="social-icons">
+
+            <a href="https://www.facebook.com/share/1MKvkMvGHN/" target="_blank" aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+
+            <a href="https://www.instagram.com/iqbalsweethouse?igsi=ZTlrdDRmYmdyNDBq" target="_blank" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+
+        </div>
+    </div>
+    
+
+
+</footer>
+
+<!-- =========================
+     BREAD SIZE MODAL
+     ========================= -->
+
+<div
+    id="bread-size-modal"
+    class="product-modal"
+    style="display:none;"
+>
+
+    <div class="product-modal-box">
+
+        <button
+            class="close-modal"
+            onclick="closeBreadModal()"
+        >
+            ×
+        </button>
+
+        <div class="modal-content">
+
+            <div class="modal-image">
+
+                <img
+                    id="bread-modal-image"
+                    src=""
+                    alt="Bread"
+                >
+
+            </div>
+
+            <div class="modal-details">
+
+                <h2 id="bread-modal-name">
+                    Bread
+                </h2>
+
+                <p>
+                    Select Size
+                </p>
+
+                <div class="bread-size-options">
+
+                    <button
+                        type="button"
+                        onclick="selectBreadSize('Small')"
+                    >
+                        Small
+                        <span id="bread-small-price">
+                            Rs. 95
+                        </span>
+                    </button>
+
+                    <button
+                        type="button"
+                        onclick="selectBreadSize('Large')"
+                    >
+                        Large
+                        <span id="bread-large-price">
+                            Rs. 180
+                        </span>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+        
+
+
+    </main>
+
+
+
+    <!-- =========================
+         FOOTER
+         ========================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Iqbal Sweet House.
+            All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+
+    <script src="script.js"></script>
+
+    <!-- PRODUCT DETAIL MODAL -->
+
+
+<!-- CART SUCCESS TOAST -->
+
+<div id="cart-toast" class="cart-toast">
+    ✓ Item added to cart
+</div>
+
+
+<!-- VIEW CART BAR -->
+<div id="view-cart-bar" class="view-cart-bar">
+
+    <div class="view-cart-icon">
+        🛒
+    </div>
+
+    <a href="cart.html" class="view-cart-link">
+        View Cart
+    </a>
+
+    <strong id="view-cart-total">
+        Rs. 0
+    </strong>
+
+</div>
+<!-- WhatsApp Floating Button -->
+<a
+    href="https://wa.me/923120606806"
+    class="whatsapp-float"
+    target="_blank"
+    aria-label="Chat on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+</body>
+
+</html>
