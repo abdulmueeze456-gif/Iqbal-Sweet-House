@@ -780,17 +780,19 @@ function renderCartPage() {
                 </strong>
 
            ${
-    item.name.startsWith("Milky Bread") ||
-    item.name.startsWith("Plain Bread") ||
-    item.name === "Brown Bread" ||
-    item.name === "Band" ||
-    item.name === "Sheermal"
+    item.name.includes(" Pound")
         ? ""
-        : item.weight === 0.25
-            ? ` / ${item.weight * item.quantity * 1000} Gram`
-            : item.weight === 0.5
-                ? ` / ${item.weight * item.quantity} KG`
-                : ` / ${item.weight * item.quantity} KG`
+        : item.name.startsWith("Milky Bread") ||
+          item.name.startsWith("Plain Bread") ||
+          item.name === "Brown Bread" ||
+          item.name === "Band" ||
+          item.name === "Sheermal"
+            ? ""
+            : item.weight === 0.25
+                ? ` / ${item.weight * item.quantity * 1000} Gram`
+                : item.weight === 0.5
+                    ? ` / ${item.weight * item.quantity} KG`
+                    : ` / ${item.weight * item.quantity} KG`
 }
             </div>
 
@@ -1030,7 +1032,18 @@ function renderCheckout() {
     <span>
         <strong>${item.name}</strong>
         <br>
-        <small>${weightText} × ${item.quantity}</small>
+        <small>
+    ${
+        item.name.includes(" Pound") ||
+        item.name.startsWith("Milky Bread") ||
+        item.name.startsWith("Plain Bread") ||
+        item.name === "Brown Bread" ||
+        item.name === "Band" ||
+        item.name === "Sheermal"
+            ? `Quantity: ${item.quantity}`
+            : `${weightText} × ${item.quantity}`
+    }
+</small>
     </span>
 
     <strong>
@@ -1547,7 +1560,17 @@ if (successItems) {
         }
         else if (item.weight) {
             weightText = item.weight + " KG";
-        }
+        } 
+        if (
+    item.name.includes(" Pound") ||
+    item.name.startsWith("Milky Bread") ||
+    item.name.startsWith("Plain Bread") ||
+    item.name === "Brown Bread" ||
+    item.name === "Band" ||
+    item.name === "Sheermal"
+) {
+    weightText = "";
+}
 
         row.innerHTML = `
 
@@ -1555,7 +1578,18 @@ if (successItems) {
                 <strong>${item.name}</strong>
                 <br>
                 <small>
-                    ${weightText} × ${item.quantity}
+                   <small>
+    ${
+        item.name.includes(" Pound") ||
+        item.name.startsWith("Milky Bread") ||
+        item.name.startsWith("Plain Bread") ||
+        item.name === "Brown Bread" ||
+        item.name === "Band" ||
+        item.name === "Sheermal"
+            ? `Quantity: ${item.quantity}`
+            : `${weightText} × ${item.quantity}`
+    }
+</small>
                 </small>
             </span>
 
