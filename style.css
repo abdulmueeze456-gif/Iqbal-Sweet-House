@@ -5110,3 +5110,27 @@ body:has(.cake-size-modal[style*="display: flex"]) {
 .product-card button {
     margin-top: auto;
 }
+@media (max-width: 768px) {
+    .phone-btn {
+        position: absolute;
+        left: 98px;
+        top: 40px;
+
+        width: 50px;
+        height: 50px;
+
+        margin: 0;
+        padding: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 30px;
+        border-radius: 8px;
+    }
+
+    .phone-btn strong {
+        display: none;
+    }
+}
