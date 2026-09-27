@@ -479,17 +479,54 @@
 
         }
 
+saveCart();
 
-        saveCart();
+updateCartCount();
 
-        updateCartCount();
+const trackedItem = cart.find(
+    item =>
+        item.name === selectedProduct.name &&
+        item.weight === selectedWeight
+);
 
-        closeProductModal();
+if (trackedItem) {
+    trackAddToCart(
+        trackedItem.name,
+        trackedItem.price,
+        modalQuantity,
+        selectedWeight
+    );
+}
 
-        showCartAddedMessage();
+closeProductModal();
+
+showCartAddedMessage();
 
     }
+/* =====================================================
+   GOOGLE ANALYTICS - ADD TO CART
+   ===================================================== */
 
+function trackAddToCart(name, price, quantity = 1, weight = 1) {
+
+    if (typeof gtag !== "function") {
+        return;
+    }
+
+    gtag("event", "add_to_cart", {
+        currency: "PKR",
+        value: Number(price) * Number(quantity),
+
+        items: [
+            {
+                item_name: name,
+                price: Number(price),
+                quantity: Number(quantity),
+                item_variant: weight + " KG"
+            }
+        ]
+    });
+}
 
     /* =====================================================
     DIRECT ADD TO CART
