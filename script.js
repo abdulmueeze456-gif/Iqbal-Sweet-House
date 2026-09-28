@@ -997,22 +997,33 @@ function trackAddToCart(name, price, quantity = 1, weight = 1) {
     OPEN CHECKOUT
     ===================================================== */
 
-    function proceedToCheckout() {
+   function proceedToCheckout() {
 
-        if (cart.length === 0) {
-
-            return;
-
-        }
-
-
-        saveCart();
-
-
-        window.location.href =
-            "checkout.html";
-
+    if (cart.length === 0) {
+        return;
     }
+
+    saveCart();
+
+    if (typeof gtag === "function") {
+        gtag("event", "begin_checkout", {
+            currency: "PKR",
+            value: cart.reduce(
+                (total, item) =>
+                    total + (item.price * item.quantity),
+                0
+            ),
+            items: cart.map(item => ({
+                item_name: item.name,
+                price: Number(item.price),
+                quantity: Number(item.quantity)
+            }))
+        });
+    }
+
+    window.location.href =
+        "checkout.html";
+}
 
 
     function checkout() {
@@ -1374,6 +1385,18 @@ function trackAddToCart(name, price, quantity = 1, weight = 1) {
                 currentOrder
             )
         );
+        if (typeof gtag === "function") {
+    gtag("event", "purchase", {
+        transaction_id: currentOrder.orderNumber,
+        currency: "PKR",
+        value: currentOrder.total,
+        items: currentOrder.items.map(item => ({
+            item_name: item.name,
+            price: Number(item.price),
+            quantity: Number(item.quantity)
+        }))
+    });
+}
 
 
         /* Clear cart after order */
