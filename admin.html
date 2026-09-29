@@ -1401,6 +1401,19 @@ async function setupFCM() {
        CHECK LOGIN STATE
     ========================= */
 
+   function startAuthStateListener() {
+
+    if (
+        typeof window.firebaseAuthStateChanged !== "function" ||
+        !window.firebaseAuth
+    ) {
+        setTimeout(
+            startAuthStateListener,
+            100
+        );
+        return;
+    }
+
     window.firebaseAuthStateChanged(
         window.firebaseAuth,
         async function (user) {
@@ -1413,10 +1426,8 @@ async function setupFCM() {
                 dashboard.style.display =
                     "block";
 
-
-                 await askNotificationPermission();
-                 await setupFCM();
-                 await loadOrders();
+                await askNotificationPermission();
+                await loadOrders();
 
             }
 
@@ -1432,5 +1443,8 @@ async function setupFCM() {
 
         }
     );
+}
+
+startAuthStateListener();
 
 </script>
