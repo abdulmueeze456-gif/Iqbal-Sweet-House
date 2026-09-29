@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Iqbal Sweet House - Admin</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #fff8e1;
+            padding: 30px;
+        }
+
+        /* =========================
+           LOGIN
+        ========================= */
+
+        .login-container {
+            min-height: calc(100vh - 60px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-box {
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .login-box h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #b71c1c;
+        }
+
+        .login-box p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #b71c1c;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .login-box button:hover {
+            background: #8f1515;
+        }
+
+        #loginMessage {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* =========================
+           DASHBOARD
+        ========================= */
+
+        #dashboard {
+            display: none;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .dashboard-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .dashboard-header h1 {
+            color: #b71c1c;
+            margin: 0;
+        }
+
+        .dashboard-header h2 {
+            margin: 5px 0 0;
+            color: #333;
+        }
+
+        #logoutButton {
+            background: #b71c1c;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        #logoutButton:hover {
+            background: #8f1515;
+        }
+
+        .orders-title {
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
+        #ordersContainer {
+            width: 100%;
+        }
+
+        .no-orders {
+            padding: 30px;
+            text-align: center;
+            background: #fafafa;
+            border-radius: 10px;
+            color: #666;
+        }
+
+        /* =========================
+           ADMIN TOOLS
+        ========================= */
+
+        .admin-tools {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr auto;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #fffdf5;
+            border: 1px solid #eee;
+            border-radius: 12px;
+        }
+
+        .admin-tools input,
+        .admin-tools select,
+        .admin-tools button {
+            min-height: 42px;
+            padding: 9px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .admin-tools button {
+            background: #b71c1c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .admin-tools button:hover {
+            background: #8f1515;
+        }
+
+        .order-stats {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            padding: 14px;
+            border-radius: 10px;
+            background: #fafafa;
+            border: 1px solid #eee;
+            text-align: center;
+        }
+
+        .stat-box strong {
+            display: block;
+            font-size: 22px;
+            color: #b71c1c;
+        }
+
+        .order-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .order-action {
+            display: inline-block;
+            padding: 8px 12px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .call-action {
+            background: #1976d2;
+            color: white;
+        }
+
+        .whatsapp-action {
+            background: #16a34a;
+            color: white;
+        }
+
+        .notification-banner {
+            display: none;
+            margin-bottom: 15px;
+            padding: 13px 15px;
+            border-radius: 10px;
+            background: #fff3cd;
+            color: #856404;
+            font-weight: bold;
+        }
+
+        @media (max-width: 800px) {
+            .admin-tools {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .order-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .login-container {
+                min-height: calc(100vh - 30px);
+            }
+
+            .dashboard-box {
+                padding: 18px;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            #logoutButton {
+                width: 100%;
+            }
+
+            .admin-tools {
+                grid-template-columns: 1fr;
+            }
+
+            .order-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         LOGIN
+    ========================= -->
+
+    <div class="login-container" id="loginContainer">
+
+        <div class="login-box">
+
+            <h1>Iqbal Sweet House</h1>
+
+            <p>Admin Login</p>
+
+            <input
+                type="email"
+                id="adminEmail"
+                placeholder="Admin Email"
+                autocomplete="email"
+            >
+
+            <input
+                type="password"
+                id="adminPassword"
+                placeholder="Password"
+                autocomplete="current-password"
+            >
+
+            <button id="loginButton">
+                Login
+            </button>
+
+            <div id="loginMessage"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         ADMIN DASHBOARD
+    ========================= -->
+
+    <div id="dashboard">
+
+        <div class="dashboard-box">
+
+            <div class="dashboard-header">
+
+                <div>
+                    <h1>Iqbal Sweet House</h1>
+                    <h2>Orders Dashboard</h2>
+                </div>
+
+                <button id="logoutButton">
+                    Logout
+                </button>
+
+            </div>
+
+            <h2 class="orders-title">
+                Orders
+            </h2>
+
+            <div class="notification-banner" id="notificationBanner"></div>
+
+            <div class="order-stats">
+                <div class="stat-box"><span>Total</span><strong id="statTotal">0</strong></div>
+                <div class="stat-box"><span>New</span><strong id="statNew">0</strong></div>
+                <div class="stat-box"><span>Confirmed</span><strong id="statConfirmed">0</strong></div>
+                <div class="stat-box"><span>Preparing</span><strong id="statPreparing">0</strong></div>
+                <div class="stat-box"><span>Delivered</span><strong id="statDelivered">0</strong></div>
+            </div>
+
+            <div class="admin-tools">
+                <input type="search" id="orderSearch" placeholder="Search name, phone, order no...">
+                <select id="statusFilter">
+                    <option value="all">All Status</option>
+                    <option value="New">New</option>
+                    <option value="Confirmed">Confirmed</option>
+                    <option value="Preparing">Preparing</option>
+                    <option value="Ready">Ready</option>
+                    <option value="Delivered">Delivered</option>
+                </select>
+                <select id="dateFilter">
+                    <option value="all">All Dates</option>
+                    <option value="today">Today</option>
+                    <option value="yesterday">Yesterday</option>
+                    <option value="7days">Last 7 Days</option>
+                </select>
+                <select id="notificationSetting">
+                    <option value="on">Notifications: ON</option>
+                    <option value="off">Notifications: OFF</option>
+                </select>
+                <button id="refreshOrdersButton">Refresh</button>
+            </div>
+
+            <div id="ordersContainer">
+
+                <div class="no-orders">
+                    No orders yet.
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Firebase -->
+    <script
+        type="module"
+        src="firebase-config.js">
+    </script>
+
+
+    <!-- Admin JavaScript -->
+   <script type="module">
+
+    const loginContainer =
+        document.getElementById("loginContainer");
+
+    const dashboard =
+        document.getElementById("dashboard");
+
+    const loginButton =
+        document.getElementById("loginButton");
+
+    const logoutButton =
+        document.getElementById("logoutButton");
+
+    const loginMessage =
+        document.getElementById("loginMessage");
+
+    const ordersContainer =
+        document.getElementById("ordersContainer");
+
+    const orderSearch =
+        document.getElementById("orderSearch");
+
+    const statusFilter =
+        document.getElementById("statusFilter");
+
+    const dateFilter =
+        document.getElementById("dateFilter");
+
+    const notificationSetting =
+        document.getElementById("notificationSetting");
+
+    const refreshOrdersButton =
+        document.getElementById("refreshOrdersButton");
+
+    const notificationBanner =
+        document.getElementById("notificationBanner");
+
+    const statTotal =
+        document.getElementById("statTotal");
+
+    const statNew =
+        document.getElementById("statNew");
+
+    const statConfirmed =
+        document.getElementById("statConfirmed");
+
+    const statPreparing =
+        document.getElementById("statPreparing");
+
+    const statDelivered =
+        document.getElementById("statDelivered");
+
+    let allOrders = [];
+    let previousOrderIds = new Set();
+    let firstOrderLoad = true;
+    let notificationPermissionAsked = false;
+
+
+    /* =========================
+       LOAD ORDERS FROM FIREBASE
+    ========================= */
+
+    function normalizePhone(phone) {
+
+        let value = String(phone || "").replace(/\D/g, "");
+
+        if (value.startsWith("00")) {
+            value = value.slice(2);
+        }
+
+        if (value.startsWith("0")) {
+            value = "92" + value.slice(1);
+        }
+
+        if (!value.startsWith("92") && value.length >= 10) {
+            value = "92" + value;
+        }
+
+        return value;
+    }
+
+
+    function escapeHTML(value) {
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+
+    function getOrderDate(order) {
+
+        if (order.createdAt && typeof order.createdAt.toDate === "function") {
+            return order.createdAt.toDate();
+        }
+
+        if (order.date) {
+            const parsed = new Date(order.date);
+            if (!Number.isNaN(parsed.getTime())) {
+                return parsed;
+            }
+        }
+
+        return null;
+    }
+
+
+    function matchesDateFilter(order, filter) {
+
+        if (filter === "all") {
+            return true;
+        }
+
+        const date = getOrderDate(order);
+
+        if (!date) {
+            return false;
+        }
+
+        const now = new Date();
+        const today = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate()
+        );
+
+        const orderDay = new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate()
+        );
+
+        if (filter === "today") {
+            return orderDay.getTime() === today.getTime();
+        }
+
+        if (filter === "yesterday") {
+            const yesterday = new Date(today);
+            yesterday.setDate(today.getDate() - 1);
+            return orderDay.getTime() === yesterday.getTime();
+        }
+
+        if (filter === "7days") {
+            const sevenDaysAgo = new Date(today);
+            sevenDaysAgo.setDate(today.getDate() - 6);
+            return orderDay >= sevenDaysAgo && orderDay <= today;
+        }
+
+        return true;
+    }
+
+
+    function updateStats() {
+
+        const counts = {
+            total: allOrders.length,
+            New: 0,
+            Confirmed: 0,
+            Preparing: 0,
+            Delivered: 0
+        };
+
+        allOrders.forEach(function (entry) {
+            const status = entry.order.status || "New";
+
+            if (counts[status] !== undefined) {
+                counts[status]++;
+            }
+        });
+
+        statTotal.textContent = counts.total;
+        statNew.textContent = counts.New;
+        statConfirmed.textContent = counts.Confirmed;
+        statPreparing.textContent = counts.Preparing;
+        statDelivered.textContent = counts.Delivered;
+    }
+
+
+    function showNewOrderNotification(newOrders) {
+
+        if (!newOrders.length || firstOrderLoad) {
+            return;
+        }
+
+        if (notificationSetting.value === "off") {
+            return;
+        }
+
+        const count = newOrders.length;
+        const message = count === 1
+            ? "New order received: #" + (newOrders[0].order.orderNumber || "")
+            : count + " new orders received.";
+
+        notificationBanner.textContent = "🔔 " + message;
+        notificationBanner.style.display = "block";
+
+        setTimeout(function () {
+            notificationBanner.style.display = "none";
+        }, 8000);
+
+        if (typeof Notification !== "undefined" && Notification.permission === "granted") {
+            new Notification("Iqbal Sweet House - New Order", {
+                body: message
+            });
+        }
+
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+
+            oscillator.frequency.value = 880;
+            oscillator.type = "sine";
+            gain.gain.value = 0.08;
+
+            oscillator.connect(gain);
+            gain.connect(audioContext.destination);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.25);
+        } catch (error) {
+            console.log("Notification sound unavailable.");
+        }
+    }
+/* =========================
+   FIREBASE CLOUD MESSAGING
+========================= */
+
+const FCM_VAPID_KEY =
+    "BPmGg_31Zv-KABKrmQ7u8Ymnq9ipsFFFTl_JK6R_40GMgQzUKj7AXPTxhnStCkBPIu_ijssAcK8_ze_ogVEGwMs";
+
+
+let fcmInitialized = false;
+
+
+async function setupFCM() {
+
+    if (fcmInitialized) {
+        return;
+    }
+
+
+    if (!window.firebaseMessaging) {
+
+        console.log(
+            "Firebase Messaging is not available."
+        );
+
+        return;
+    }
+
+
+    if (!("serviceWorker" in navigator)) {
+
+        console.log(
+            "Service Worker is not supported."
+        );
+
+        return;
+    }
+
+
+    try {
+
+        const registration =
+            await navigator.serviceWorker.register(
+                "/firebase-messaging-sw.js"
+            );
+
+
+        if (
+            typeof Notification !== "undefined" &&
+            Notification.permission !== "granted"
+        ) {
+
+            const permission =
+                await Notification.requestPermission();
+
+
+            if (permission !== "granted") {
+
+                console.log(
+                    "Notification permission denied."
+                );
+
+                return;
+            }
+
+        }
+
+
+        const token =
+            await window.firebaseGetToken(
+                window.firebaseMessaging,
+                {
+
+                    vapidKey:
+                        FCM_VAPID_KEY,
+
+                    serviceWorkerRegistration:
+                        registration
+
+                }
+            );
+
+
+        if (token) {
+
+            console.log(
+                "FCM DEVICE TOKEN:",
+                token
+            );
+
+
+            localStorage.setItem(
+                "iqbalFcmToken",
+                token
+            );
+
+
+            fcmInitialized = true;
+
+
+            window.firebaseOnMessage(
+                window.firebaseMessaging,
+                function (payload) {
+
+                    console.log(
+                        "FCM foreground message:",
+                        payload
+                    );
+
+
+                    const title =
+                        payload.notification?.title ||
+                        "Iqbal Sweet House";
+
+
+                    const body =
+                        payload.notification?.body ||
+                        "New notification received.";
+
+
+                    notificationBanner.textContent =
+                        "🔔 " +
+                        title +
+                        " - " +
+                        body;
+
+
+                    notificationBanner.style.display =
+                        "block";
+
+
+                    setTimeout(
+                        function () {
+
+                            notificationBanner.style.display =
+                                "none";
+
+                        },
+                        8000
+                    );
+
+                }
+            );
+
+        }
+
+    }
+    catch (error) {
+
+        console.error(
+            "FCM setup failed:",
+            error
+        );
+
+    }
+
+}
+
+    async function askNotificationPermission() {
+
+        if (notificationPermissionAsked) {
+            return;
+        }
+
+        notificationPermissionAsked = true;
+
+        if (typeof Notification === "undefined") {
+            return;
+        }
+
+        if (Notification.permission === "default") {
+            try {
+                await Notification.requestPermission();
+            } catch (error) {
+                console.log("Notification permission not available.");
+            }
+        }
+    }
+
+
+    function renderOrders() {
+
+        const searchText =
+            orderSearch.value.trim().toLowerCase();
+
+        const selectedStatus =
+            statusFilter.value;
+
+        const selectedDate =
+            dateFilter.value;
+
+        const filteredOrders = allOrders.filter(function (entry) {
+
+            const order = entry.order;
+
+            const status = order.status || "New";
+
+            if (
+                selectedStatus !== "all" &&
+                status !== selectedStatus
+            ) {
+                return false;
+            }
+
+            if (!matchesDateFilter(order, selectedDate)) {
+                return false;
+            }
+
+            if (!searchText) {
+                return true;
+            }
+
+            const searchableText = [
+                order.orderNumber,
+                order.name,
+                order.phone,
+                order.alternatePhone,
+                order.email,
+                order.address,
+                order.landmark,
+                order.orderType,
+                status
+            ]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase();
+
+            return searchableText.includes(searchText);
+        });
+
+        if (filteredOrders.length === 0) {
+            ordersContainer.innerHTML =
+                '<div class="no-orders">No matching orders found.</div>';
+            return;
+        }
+
+        ordersContainer.innerHTML = "";
+
+        filteredOrders.forEach(function (entry) {
+
+            const docId = entry.id;
+            const order = entry.order;
+
+            let itemsHTML = "";
+
+            if (
+                order.items &&
+                Array.isArray(order.items)
+            ) {
+
+                order.items.forEach(function (item) {
+
+                    let weightText = "";
+
+                    if (item.weight === 0.25) {
+                        weightText = "250 Gram";
+                    }
+                    else if (item.weight === 0.5) {
+                        weightText = "Half KG";
+                    }
+                    else if (item.weight === 1) {
+                        weightText = "1 KG";
+                    }
+                    else if (item.weight) {
+                        weightText = item.weight + " KG";
+                    }
+
+                    const itemName = String(item.name || "");
+
+                    const isCakeOrBread =
+                        itemName.includes(" Pound") ||
+                        itemName.startsWith("Milky Bread") ||
+                        itemName.startsWith("Plain Bread") ||
+                        itemName === "Brown Bread" ||
+                        itemName === "Band" ||
+                        itemName === "Sheermal";
+
+                    itemsHTML += `
+                        <div style="
+                            padding: 8px 0;
+                            border-bottom: 1px solid #eee;
+                        ">
+                            <strong>${escapeHTML(itemName)}</strong>
+                            <br>
+                            <small>
+                                ${
+                                    isCakeOrBread
+                                        ? "Quantity: " + Number(item.quantity || 0)
+                                        : escapeHTML(weightText) + " × " + Number(item.quantity || 0)
+                                }
+                            </small>
+                            <br>
+                            <small>
+                                Rs. ${
+                                    (
+                                        Number(item.price || 0) *
+                                        Number(item.quantity || 0)
+                                    ).toLocaleString()
+                                }
+                            </small>
+                        </div>
+                    `;
+                });
+            }
+
+            const dateObject = getOrderDate(order);
+
+            const orderDate = dateObject
+                ? dateObject.toLocaleString()
+                : (order.date || "");
+
+            const status = order.status || "New";
+            const phone = String(order.phone || "");
+            const whatsappPhone = normalizePhone(phone);
+
+            const orderCard =
+                document.createElement("div");
+
+            orderCard.style.cssText = `
+                border: 1px solid #ddd;
+                border-radius: 12px;
+                padding: 20px;
+                margin-bottom: 20px;
+                background: #fff;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            `;
+
+            orderCard.innerHTML = `
+                <div style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 15px;
+                    margin-bottom: 15px;
+                    flex-wrap: wrap;
+                ">
+                    <div>
+                        <h3 style="
+                            margin: 0;
+                            color: #b71c1c;
+                        ">
+                            Order #${escapeHTML(order.orderNumber || "")}
+                        </h3>
+                        <small>${escapeHTML(orderDate)}</small>
+                    </div>
+
+                    <div>
+                        <select
+                            class="status-select"
+                            data-order-id="${escapeHTML(docId)}"
+                            style="
+                                padding: 7px 12px;
+                                border: 1px solid #ddd;
+                                border-radius: 20px;
+                                font-weight: bold;
+                                cursor: pointer;
+                                background: #fff3cd;
+                                color: #856404;
+                            "
+                        >
+                            <option value="New" ${status === "New" ? "selected" : ""}>New</option>
+                            <option value="Confirmed" ${status === "Confirmed" ? "selected" : ""}>Confirmed</option>
+                            <option value="Preparing" ${status === "Preparing" ? "selected" : ""}>Preparing</option>
+                            <option value="Ready" ${status === "Ready" ? "selected" : ""}>Ready</option>
+                            <option value="Delivered" ${status === "Delivered" ? "selected" : ""}>Delivered</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="
+                    margin-bottom: 15px;
+                    line-height: 1.7;
+                ">
+                    <strong>Customer:</strong>
+                    ${escapeHTML(order.name || "")}
+                    <br>
+                    <strong>Phone:</strong>
+                    ${escapeHTML(phone)}
+
+                    ${
+                        order.alternatePhone
+                            ? `
+                                <br>
+                                <strong>Alternate Phone:</strong>
+                                ${escapeHTML(order.alternatePhone)}
+                              `
+                            : ""
+                    }
+
+                    ${
+                        order.email
+                            ? `
+                                <br>
+                                <strong>Email:</strong>
+                                ${escapeHTML(order.email)}
+                              `
+                            : ""
+                    }
+
+                    <br>
+                    <strong>Order Type:</strong>
+                    ${escapeHTML(order.orderType || "")}
+                    <br>
+                    <strong>Address:</strong>
+                    ${escapeHTML(order.address || "")}
+
+                    ${
+                        order.landmark
+                            ? `
+                                <br>
+                                <strong>Landmark:</strong>
+                                ${escapeHTML(order.landmark)}
+                              `
+                            : ""
+                    }
+
+                    <br>
+                    <strong>Payment:</strong>
+                    ${escapeHTML(order.paymentMethod || "")}
+                </div>
+
+                <div class="order-actions">
+                    ${
+                        phone
+                            ? `
+                                <a
+                                    class="order-action call-action"
+                                    href="tel:${escapeHTML(phone)}"
+                                >
+                                    📞 Call Customer
+                                </a>
+                              `
+                            : ""
+                    }
+
+                    ${
+                        whatsappPhone
+                            ? `
+                                <a
+                                    class="order-action whatsapp-action"
+                                    href="https://wa.me/${escapeHTML(whatsappPhone)}"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    💬 WhatsApp
+                                </a>
+                              `
+                            : ""
+                    }
+                </div>
+
+                <div style="
+                    background: #fafafa;
+                    padding: 12px;
+                    border-radius: 8px;
+                    margin-top: 15px;
+                    margin-bottom: 15px;
+                ">
+                    <strong>Items</strong>
+                    ${itemsHTML}
+                </div>
+
+                <div style="
+                    text-align: right;
+                    font-size: 20px;
+                    font-weight: bold;
+                    color: #b71c1c;
+                ">
+                    Total:
+                    Rs. ${
+                        Number(order.total || 0)
+                            .toLocaleString()
+                    }
+                </div>
+            `;
+
+            ordersContainer.appendChild(orderCard);
+
+            const statusSelect =
+                orderCard.querySelector(".status-select");
+
+            if (statusSelect) {
+                statusSelect.addEventListener(
+                    "change",
+                    function () {
+                        updateOrderStatus(
+                            this.dataset.orderId,
+                            this.value
+                        );
+                    }
+                );
+            }
+        });
+    }
+
+
+    async function loadOrders(options = {}) {
+
+        if (!options.silent) {
+            ordersContainer.innerHTML =
+                '<div class="no-orders">Loading orders...</div>';
+        }
+
+        try {
+
+            const ordersQuery =
+                window.firebaseQuery(
+                    window.firebaseCollection(
+                        window.firebaseDB,
+                        "orders"
+                    ),
+                    window.firebaseOrderBy(
+                        "createdAt",
+                        "desc"
+                    )
+                );
+
+            const snapshot =
+                await window.firebaseGetDocs(ordersQuery);
+
+            const newOrders = [];
+            const nextIds = new Set();
+
+            allOrders = [];
+
+            snapshot.forEach(function (orderDoc) {
+
+                const order = orderDoc.data();
+                const entry = {
+                    id: orderDoc.id,
+                    order: order
+                };
+
+                allOrders.push(entry);
+                nextIds.add(orderDoc.id);
+
+                if (
+                    !firstOrderLoad &&
+                    !previousOrderIds.has(orderDoc.id)
+                ) {
+                    newOrders.push(entry);
+                }
+            });
+
+            updateStats();
+            renderOrders();
+
+            previousOrderIds = nextIds;
+
+            if (newOrders.length) {
+                showNewOrderNotification(newOrders);
+            }
+
+            firstOrderLoad = false;
+
+        }
+        catch (error) {
+
+            console.error(
+                "Orders loading failed:",
+                error
+            );
+
+            ordersContainer.innerHTML = `
+                <div class="no-orders">
+                    Unable to load orders.
+                </div>
+            `;
+        }
+    }
+
+
+    /* =========================
+       UPDATE ORDER STATUS
+    ========================= */
+
+    async function updateOrderStatus(
+        orderId,
+        newStatus
+    ) {
+
+        try {
+
+            await window.firebaseUpdateDoc(
+                window.firebaseDoc(
+                    window.firebaseDB,
+                    "orders",
+                    orderId
+                ),
+                {
+                    status: newStatus
+                }
+            );
+
+            await loadOrders();
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Status update failed:",
+                error
+            );
+
+            alert(
+                "Status could not be updated."
+            );
+
+        }
+    }
+
+
+    /* =========================
+       LOGIN
+    ========================= */
+
+    loginButton.addEventListener(
+        "click",
+        async function () {
+
+            const email =
+                document
+                    .getElementById("adminEmail")
+                    .value
+                    .trim();
+
+            const password =
+                document
+                    .getElementById("adminPassword")
+                    .value;
+
+
+            if (!email || !password) {
+
+                loginMessage.textContent =
+                    "Please enter email and password.";
+
+                loginMessage.style.color =
+                    "red";
+
+                return;
+            }
+
+
+            try {
+
+                await window.firebaseSignIn(
+                    window.firebaseAuth,
+                    email,
+                    password
+                );
+
+
+                loginMessage.textContent =
+                    "Login successful!";
+
+                loginMessage.style.color =
+                    "green";
+
+
+                loginContainer.style.display =
+                    "none";
+
+                dashboard.style.display =
+                    "block";
+
+                 await askNotificationPermission();
+                 await setupFCM();
+                await loadOrders();
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+                loginMessage.textContent =
+                    "Invalid email or password.";
+
+                loginMessage.style.color =
+                    "red";
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    logoutButton.addEventListener(
+        "click",
+        async function () {
+
+            try {
+
+                await window.firebaseAuth.signOut();
+
+
+                dashboard.style.display =
+                    "none";
+
+                loginContainer.style.display =
+                    "flex";
+
+
+                document
+                    .getElementById("adminPassword")
+                    .value = "";
+
+
+                loginMessage.textContent = "";
+
+            }
+
+            catch (error) {
+
+                console.error(error);
+
+            }
+
+        }
+    );
+
+
+    orderSearch.addEventListener("input", renderOrders);
+    statusFilter.addEventListener("change", renderOrders);
+    dateFilter.addEventListener("change", renderOrders);
+
+    refreshOrdersButton.addEventListener(
+        "click",
+        function () {
+            loadOrders();
+        }
+    );
+
+    notificationSetting.addEventListener(
+        "change",
+        async function () {
+            if (this.value === "on") {
+                await askNotificationPermission();
+            }
+        }
+    );
+
+    setInterval(
+        function () {
+            if (dashboard.style.display !== "none") {
+                loadOrders({ silent: true });
+            }
+        },
+        10000
+    );
+
+
+    /* =========================
+       CHECK LOGIN STATE
+    ========================= */
+
+    window.firebaseAuthStateChanged(
+        window.firebaseAuth,
+        async function (user) {
+
+            if (user) {
+
+                loginContainer.style.display =
+                    "none";
+
+                dashboard.style.display =
+                    "block";
+
+
+                 await askNotificationPermission();
+                 await setupFCM();
+                 await loadOrders();
+
+            }
+
+            else {
+
+                loginContainer.style.display =
+                    "flex";
+
+                dashboard.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+
+</script>
