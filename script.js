@@ -1211,8 +1211,7 @@ function trackAddToCart(name, price, quantity = 1, weight = 1) {
     PLACE ORDER
     ===================================================== */
 
-    function placeOrder() {
-
+   async function placeOrder() {
         if (cart.length === 0) {
 
             alert(
@@ -1385,6 +1384,54 @@ function trackAddToCart(name, price, quantity = 1, weight = 1) {
                 currentOrder
             )
         );
+        try {
+
+   const firebaseOrder = JSON.parse(JSON.stringify({
+    orderNumber: currentOrder.orderNumber,
+    date: currentOrder.date,
+
+    name: currentOrder.customer.name,
+    phone: currentOrder.customer.phone,
+    alternatePhone: currentOrder.customer.alternatePhone || "",
+    email: currentOrder.customer.email || "",
+
+    orderType: currentOrder.orderType,
+    address: currentOrder.address || "",
+    landmark: currentOrder.landmark || "",
+    paymentMethod: currentOrder.paymentMethod,
+
+    items: currentOrder.items,
+    total: Number(currentOrder.total),
+
+    status: "New"
+}));
+
+firebaseOrder.createdAt =
+    window.firebaseServerTimestamp();
+
+    await window.firebaseAddDoc(
+        window.firebaseCollection(
+            window.firebaseDB,
+            "orders"
+        ),
+        firebaseOrder
+    );
+
+}
+catch (error) {
+
+   console.error(
+    "Firebase order save failed:",
+    error.code,
+    error.message
+);
+
+    alert(
+        "Order could not be saved. Please try again."
+    );
+
+    return;
+}   
         if (typeof gtag === "function") {
     gtag("event", "purchase", {
         transaction_id: currentOrder.orderNumber,
