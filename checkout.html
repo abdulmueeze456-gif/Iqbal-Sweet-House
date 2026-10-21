@@ -19,6 +19,7 @@
   gtag('config', 'G-WPRD71QKEB');
 </script>
     <title>Checkout - Iqbal Sweet House</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <link
         rel="stylesheet"
@@ -35,95 +36,23 @@
          ========================= -->
 
     <header class="site-header">
-
-        <div class="top-header">
-
-            <div class="checkout-header-left">
-
-                <a
-                    href="index.html"
-                    class="header-btn"
-                >
-                    🏠
-                    <span>
-                        <strong>Home</strong>
-                        <small>Back to Shop</small>
-                    </span>
-                </a>
-
-
-                <a
-                    href="cart.html"
-                    class="header-btn"
-                >
-                    🛒
-                    <span>
-                        <strong>Cart</strong>
-                        <small>View Cart</small>
-                    </span>
-                </a>
-
-            </div>
-
-
-            <a
-                href="index.html"
-                class="main-logo"
-            >
-
-                <img
-                    src="images/hero.png"
-                    alt="Iqbal Sweet House Logo"
-                >
-
-            </a>
-
-
-            <a
-                href="cart.html"
-                class="cart-icon"
-            >
-
-                🛒
-
-                <span class="cart-count">
-                    0
-                </span>
-
-            </a>
-
+    <div class="top-header">
+        <a href="index.html" class="main-logo" aria-label="Iqbal Sweet House home"><img src="images/hero.png" alt="Iqbal Sweet House Logo"></a>
+        <button type="button" class="header-btn location-btn" aria-label="Show Iqbal Sweet House branches" aria-haspopup="dialog" aria-controls="branches-modal" onclick="openBranchesModal()"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></button>
+        <a href="tel:03120606806" class="header-btn phone-btn" aria-label="Call Iqbal Sweet House"><i class="fa-solid fa-phone" aria-hidden="true"></i></a>
+        <a href="cart.html" class="cart-icon" aria-label="Shopping cart"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i><span class="cart-count">0</span></a>
+    </div>
+</header>
+<div id="branches-modal" class="branches-modal" role="dialog" aria-modal="true" aria-labelledby="branches-title" onclick="if (event.target === this) closeBranchesModal()">
+    <div class="branches-modal-card">
+        <button type="button" class="branches-modal-close" aria-label="Close branch locations" onclick="closeBranchesModal()">&times;</button>
+        <p class="branches-eyebrow">IQBAL SWEET HOUSE</p><h2 id="branches-title">Choose a Branch</h2><p class="branches-intro">Visit either of our Sahiwal branches.</p>
+        <div class="branch-list">
+            <article class="branch-item"><div class="branch-heading"><span class="branch-number">1</span><h3>Main Branch</h3></div><p>Jinnah Chowk, Sadman Town, Sahiwal, 57000, Pakistan</p><a href="https://share.google/YQTTo2uFdgDic8Qnb" target="_blank" rel="noopener noreferrer">Open in Google Maps <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></article>
+            <article class="branch-item"><div class="branch-heading"><span class="branch-number">2</span><h3>Farid Town Branch</h3></div><p>H, Farid Town, Main Market Farid Town, Sahiwal, 57000, Pakistan</p><a href="https://www.google.com/maps/search/?api=1&amp;query=Iqbal+Sweet+House%2C+H%2C+Farid+Town%2C+Main+Market+Farid+Town%2C+Sahiwal%2C+57000%2C+Pakistan" target="_blank" rel="noopener noreferrer">Open in Google Maps <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></article>
         </div>
-
-
-        <nav class="category-nav">
-
-            <a href="index.html#sweets">
-                SWEETS
-            </a>
-
-            <a href="index.html#cakes">
-                CAKES
-            </a>
-
-            <a href="index.html#bakery">
-                BAKERY
-            </a>
-
-            <a href="index.html#namkeen">
-                NAMKEEN AND SWEETNESS
-            </a>
-
-            <a href="index.html#bread">
-                BREAD
-            </a>
-
-            <a href="index.html#rusks">
-                RUSKS
-            </a>
-
-        </nav>
-
-    </header>
+    </div>
+</div>
 
 
 
