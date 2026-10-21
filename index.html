@@ -58,21 +58,22 @@
         <div class="top-header">
 
             <!-- Change Location -->
-          <a
-    href="https://share.google/YQTTo2uFdgDic8Qnb"
-    target="_blank"
+            <button
+    type="button"
     class="header-btn location-btn"
-    aria-label="Open Iqbal Sweet House location"
+    aria-label="Show Iqbal Sweet House branches"
+    aria-haspopup="dialog"
+    aria-controls="branches-modal"
+    onclick="openBranchesModal()"
 >
-    📍
-    
-</a>
+    <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+</button>
 
             <!-- Phone -->
            <a href="tel:03120606806"
    class="header-btn phone-btn"
    aria-label="Call Iqbal Sweet House">
-    📞
+    <i class="fa-solid fa-phone" aria-hidden="true"></i>
 </a>
 
             <!-- Logo -->
@@ -82,27 +83,34 @@
 
             <!-- Cart -->
             <a href="cart.html" class="cart-icon">
-                🛒
+                <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
                 <span class="cart-count">0</span>
             </a>
 
         </div>
 
-
-        <!-- Category Navigation -->
-
-        <nav class="category-nav">
-
-            <a href="#sweets" class="active">SWEETS</a>
-            <a href="#cakes">CAKES</a>
-            <a href="#bakery">BAKERY</a>
-            <a href="#namkeen">NAMKEEN AND SWEETNESS</a>
-            <a href="#bread">BREAD</a>
-            <a href="#rusks">RUSKS</a>
-
-        </nav>
-
     </header>
+
+    <div id="branches-modal" class="branches-modal" role="dialog" aria-modal="true" aria-labelledby="branches-title" onclick="if (event.target === this) closeBranchesModal()">
+        <div class="branches-modal-card">
+            <button type="button" class="branches-modal-close" aria-label="Close branch locations" onclick="closeBranchesModal()">&times;</button>
+            <p class="branches-eyebrow">IQBAL SWEET HOUSE</p>
+            <h2 id="branches-title">Choose a Branch</h2>
+            <p class="branches-intro">Visit either of our Sahiwal branches.</p>
+            <div class="branch-list">
+                <article class="branch-item">
+                    <div class="branch-heading"><span class="branch-number">1</span><h3>Main Branch</h3></div>
+                    <p>Jinnah Chowk, Sadman Town, Sahiwal, 57000, Pakistan</p>
+                    <a href="https://share.google/YQTTo2uFdgDic8Qnb" target="_blank" rel="noopener noreferrer">Open in Google Maps <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                </article>
+                <article class="branch-item">
+                    <div class="branch-heading"><span class="branch-number">2</span><h3>Farid Town Branch</h3></div>
+                    <p>H, Farid Town, Main Market Farid Town, Sahiwal, 57000, Pakistan</p>
+                    <a href="https://www.google.com/maps/search/?api=1&amp;query=Iqbal+Sweet+House%2C+H%2C+Farid+Town%2C+Main+Market+Farid+Town%2C+Sahiwal%2C+57000%2C+Pakistan" target="_blank" rel="noopener noreferrer">Open in Google Maps <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                </article>
+            </div>
+        </div>
+    </div>
 
     <!-- =========================
      PRODUCT DETAIL POPUP
@@ -372,9 +380,14 @@
             </div>
 
         </section>
-
-
-
+        <nav class="category-nav hero-category-nav" aria-label="Product categories">
+            <a href="#sweets" class="active">SWEETS</a>
+            <a href="#cakes">CAKES</a>
+            <a href="#bakery">BAKERY</a>
+            <a href="#namkeen">NAMKEEN AND SWEETNESS</a>
+            <a href="#bread">BREAD</a>
+            <a href="#rusks">RUSKS</a>
+        </nav>
         <!-- =========================
              POPULAR SWEETS
              ========================= -->
