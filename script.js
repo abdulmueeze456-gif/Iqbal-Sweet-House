@@ -2154,3 +2154,28 @@ catch (error) {
 
         }
     );
+
+    /* Sahiwal branch locations */
+    function openBranchesModal() {
+        const modal = document.getElementById("branches-modal");
+        if (!modal) return;
+
+        modal.classList.add("show");
+        document.body.style.overflow = "hidden";
+        const closeButton = modal.querySelector(".branches-modal-close");
+        if (closeButton) closeButton.focus();
+    }
+
+    function closeBranchesModal() {
+        const modal = document.getElementById("branches-modal");
+        if (!modal || !modal.classList.contains("show")) return;
+
+        modal.classList.remove("show");
+        document.body.style.overflow = "";
+        const locationButton = document.querySelector(".location-btn");
+        if (locationButton) locationButton.focus();
+    }
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") closeBranchesModal();
+    });
