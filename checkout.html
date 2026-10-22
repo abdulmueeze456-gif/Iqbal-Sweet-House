@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WPRD71QKEB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-WPRD71QKEB');
+</script>
+    <title>Checkout - Iqbal Sweet House</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- =========================
+         HEADER
+         ========================= -->
+
+    <header class="site-header">
+    <div class="top-header">
+        <a href="index.html" class="main-logo" aria-label="Iqbal Sweet House home"><img src="images/hero.png" alt="Iqbal Sweet House Logo"></a>
+        <button type="button" class="header-btn location-btn" aria-label="Show Iqbal Sweet House branches" aria-haspopup="dialog" aria-controls="branches-modal" onclick="openBranchesModal()"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></button>
+        <a href="tel:03120606806" class="header-btn phone-btn" aria-label="Call Iqbal Sweet House"><i class="fa-solid fa-phone" aria-hidden="true"></i></a>
+        <a href="cart.html" class="cart-icon" aria-label="Shopping cart"><i class="fa-solid fa-cart-shopping" aria-hidden="true"></i><span class="cart-count">0</span></a>
+    </div>
+</header>
+<div id="branches-modal" class="branches-modal" role="dialog" aria-modal="true" aria-labelledby="branches-title" onclick="if (event.target === this) closeBranchesModal()">
+    <div class="branches-modal-card">
+        <button type="button" class="branches-modal-close" aria-label="Close branch locations" onclick="closeBranchesModal()">&times;</button>
+        <p class="branches-eyebrow">IQBAL SWEET HOUSE</p><h2 id="branches-title">Choose a Branch</h2><p class="branches-intro">Visit either of our Sahiwal branches.</p>
+        <div class="branch-list">
+            <article class="branch-item"><div class="branch-heading"><span class="branch-number">1</span><h3>Main Branch</h3></div><p>Jinnah Chowk, Sadman Town, Sahiwal, 57000, Pakistan</p><a href="https://share.google/YQTTo2uFdgDic8Qnb" target="_blank" rel="noopener noreferrer">Open in Google Maps <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></article>
+            <article class="branch-item"><div class="branch-heading"><span class="branch-number">2</span><h3>Farid Town Branch</h3></div><p>H, Farid Town, Main Market Farid Town, Sahiwal, 57000, Pakistan</p><a href="https://www.google.com/maps/search/?api=1&amp;query=Iqbal+Sweet+House%2C+H%2C+Farid+Town%2C+Main+Market+Farid+Town%2C+Sahiwal%2C+57000%2C+Pakistan" target="_blank" rel="noopener noreferrer">Open in Google Maps <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></article>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- =========================
+         CHECKOUT PAGE
+         ========================= -->
+
+    <main>
+
+        <section class="checkout-page">
+
+            <div class="checkout-layout">
+
+
+                <!-- =====================
+                     LEFT SIDE
+                     ===================== -->
+
+                <div class="checkout-form">
+
+
+                    <p class="section-small-title">
+                        COMPLETE YOUR ORDER
+                    </p>
+
+                    <h1>
+                        Checkout
+                    </h1>
+
+
+                    <!-- Customer Information -->
+
+                    <div class="checkout-box">
+
+                        <h3>
+                            Customer Information
+                        </h3>
+
+
+                        <div class="checkout-fields">
+
+
+                            <div class="field-group">
+
+                                <label for="customer-name">
+                                    Full Name
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="customer-name"
+                                    placeholder="Enter your name"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="field-group">
+
+                                <label for="customer-phone">
+                                    Mobile Number
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    id="customer-phone"
+                                    placeholder="03XX-XXXXXXX"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="field-group">
+
+                                <label for="alternate-phone">
+                                    Alternate Mobile Number
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    id="alternate-phone"
+                                    placeholder="03XX-XXXXXXX"
+                                >
+
+                            </div>
+
+
+                            <div class="field-group">
+
+                                <label for="customer-email">
+                                    Email Address
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="customer-email"
+                                    placeholder="Enter your email"
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Order Type -->
+
+                    <div class="checkout-box">
+
+                        <h3>
+                            Order Type
+                        </h3>
+
+
+                        <div class="order-type">
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="orderType"
+                                    value="delivery"
+                                    checked
+                                    onchange="toggleDeliveryAddress()"
+                                >
+
+                                Delivery
+
+                            </label>
+
+
+                            <label>
+
+                                <input
+                                    type="radio"
+                                    name="orderType"
+                                    value="pickup"
+                                    onchange="toggleDeliveryAddress()"
+                                >
+
+                                Pick-up
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Delivery Address -->
+
+                    <div
+                        class="checkout-box"
+                        id="delivery-address-box"
+                    >
+
+                        <h3>
+                            Delivery Address
+                        </h3>
+
+
+                        <p class="address-help">
+                            Please select an address from the list shown
+                        </p>
+
+
+                        <div
+                            id="saved-address-list"
+                            class="saved-address-list"
+                        >
+
+                            <label class="saved-address">
+
+                                <input
+                                    type="radio"
+                                    name="savedAddress"
+                                    value="current"
+                                >
+
+                                <span>
+                                    Add your delivery address below
+                                </span>
+
+                            </label>
+
+                        </div>
+
+
+                        <div class="field-group">
+
+                            <label for="delivery-address">
+                                Complete Address
+                            </label>
+
+                            <textarea
+                                id="delivery-address"
+                                placeholder="House/Shop No, Street, Area, City"
+                                required
+                            ></textarea>
+
+                        </div>
+
+
+                        <div class="field-group">
+
+                            <label for="landmark">
+                                Nearest Landmark
+                            </label>
+
+                            <input
+                                type="text"
+                                id="landmark"
+                                placeholder="Any famous place nearby"
+                            >
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="add-address-btn"
+                            onclick="addNewAddress()"
+                        >
+                            + Add New Address
+                        </button>
+
+                    </div>
+
+
+
+                    <!-- Payment -->
+
+                    <div class="checkout-box">
+
+                        <h3>
+                            Payment Method
+                        </h3>
+
+
+                        <label class="payment-option">
+
+                            <input
+                                type="radio"
+                                name="payment"
+                                value="cod"
+                                checked
+                            >
+
+                            💵 Cash on Delivery
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =====================
+                     RIGHT SIDE
+                     ===================== -->
+
+                <aside class="order-sidebar">
+
+                    <div class="your-order-box">
+
+                        <h2>
+                            Your Order
+                        </h2>
+
+
+                        <div id="checkout-summary">
+
+                            <!-- Cart products will appear here -->
+
+                        </div>
+
+
+                        <div class="order-total-row">
+
+                            <span>
+                                Total
+                            </span>
+
+                            <strong id="checkout-total">
+                                Rs. 0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="delivery-note">
+                            Delivery charges will be confirmed with your order.
+                        </div>
+
+                    </div>
+
+
+                    <button
+    type="button"
+    class="place-order-btn"
+    onclick="placeOrder()"
+>
+    Place Order
+</button>
+
+
+
+<a
+    href="https://wa.me/923120606806"
+    target="_blank"
+    class="whatsapp-order-btn"
+>
+    📱 Order on WhatsApp
+</a>
+                    </button>
+
+
+                    <a
+                        href="index.html#sweets"
+                        class="continue-items"
+                    >
+                        ← Continue to add more items
+                    </a>
+
+                </aside>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================
+         FOOTER
+         ========================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Iqbal Sweet House.
+            All Rights Reserved.
+        </p>
+
+    </footer>
+
+    <script type="module" src="firebase-config.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
