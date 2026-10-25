@@ -347,8 +347,11 @@ def send_email(subject: str, plain: str, html_body: str) -> None:
         raise ReportError("SMTP_PORT must be 465 (implicit TLS) or 587 (STARTTLS).")
 
     host = os.environ["SMTP_HOST"].strip()
-    username = os.environ["SMTP_USERNAME"]
-    password = os.environ["SMTP_PASSWORD"]
+    username = os.environ["SMTP_USERNAME"].strip()
+    password = os.environ["SMTP_PASSWORD"].strip()
+    if host.lower() == "smtp.gmail.com":
+        # Google displays App Passwords in groups; tolerate pasted spaces/newlines.
+        password = "".join(password.split())
     stage = "SMTP connection"
     try:
         if port == 465:
@@ -375,7 +378,15 @@ def send_email(subject: str, plain: str, html_body: str) -> None:
     except Exception as exc:
         # Report only the phase and exception class. Never log server text,
         # addresses, credentials, or message contents from the exception.
-        raise ReportError(f"Email delivery failed during {stage} ({type(exc).__name__}).") from exc
+        hint = ""
+        if stage == "SMTP authentication" and isinstance(exc, smtplib.SMTPServerDisconnected):
+            hint = (
+                " Gmail closed the connection during authentication; verify that SMTP_USERNAME "
+                "is the full Gmail address and SMTP_PASSWORD is that account's current App Password."
+            )
+        raise ReportError(
+            f"Email delivery failed during {stage} ({type(exc).__name__}).{hint}"
+        ) from exc
 
 
 def main() -> int:

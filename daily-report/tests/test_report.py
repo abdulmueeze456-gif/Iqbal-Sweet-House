@@ -87,6 +87,17 @@ class DailyReportTests(unittest.TestCase):
         server.login.assert_called_once_with("sender@example.com", "unit-test-password")
         server.send_message.assert_called_once()
 
+    def test_email_normalizes_spaced_gmail_app_password(self):
+        self._set_email_environment(587)
+        import os
+        os.environ["SMTP_USERNAME"] = " sender@example.com "
+        os.environ["SMTP_PASSWORD"] = " abcd efgh ijkl mnop\n"
+        server = MagicMock()
+        server.__enter__.return_value = server
+        with patch.object(report.smtplib, "SMTP", return_value=server):
+            report.send_email("subject", "plain", "<p>html</p>")
+        server.login.assert_called_once_with("sender@example.com", "abcdefghijklmnop")
+
     def test_email_uses_gmail_587_starttls(self):
         self._set_email_environment(587)
         server = MagicMock()
