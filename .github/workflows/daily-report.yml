@@ -1,6 +1,10 @@
 name: Iqbal Sweet House Daily Report
 
 on:
+  push:
+    branches:
+      - main
+      - "codex/**"
   schedule:
     # 08:30 Pakistan Standard Time (03:30 UTC); reports the previous Pakistan day.
     - cron: "30 3 * * *"
@@ -36,6 +40,7 @@ jobs:
       - name: Run unit checks
         run: python -m unittest discover -s daily-report/tests -v
       - name: Generate and email report
+        if: github.event_name != 'push'
         run: python daily-report/report.py
         env:
           GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
