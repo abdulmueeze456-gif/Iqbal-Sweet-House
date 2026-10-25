@@ -20,7 +20,7 @@ In the repository, open **Settings → Secrets and variables → Actions → New
 - `SMTP_PORT` (`587` for STARTTLS, or `465` for implicit TLS; these are the supported ports)
 - `SMTP_USERNAME` (Gmail account used to send)
 - `SMTP_PASSWORD` (Gmail App Password, not the normal account password)
-- `REPORT_TO_EMAIL` (must be `iqbalsweethouse1@gmail.com`; the code rejects a different recipient)
+- `REPORT_TO_EMAIL` (the single email address that should receive the report; defaults to `iqbalsweethouse1@gmail.com` when unset)
 - `REPORT_FROM_EMAIL` (email address matching the SMTP sender)
 
 Grant the GA4 service-account email **Viewer** access to property `4909600135`, and enable the Google Analytics Data API in the service account's Google Cloud project. The Firebase service account needs read access to the `orders` collection. Never put either service-account JSON in the repository or workflow logs.

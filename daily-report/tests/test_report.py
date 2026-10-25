@@ -110,6 +110,17 @@ class DailyReportTests(unittest.TestCase):
         server.login.assert_called_once_with("sender@example.com", "unit-test-password")
         server.send_message.assert_called_once()
 
+    def test_email_uses_configured_report_recipient(self):
+        self._set_email_environment(587)
+        import os
+        os.environ["REPORT_TO_EMAIL"] = "reports@example.com"
+        server = MagicMock()
+        server.__enter__.return_value = server
+        with patch.object(report.smtplib, "SMTP", return_value=server):
+            report.send_email("subject", "plain", "<p>html</p>")
+        message = server.send_message.call_args.args[0]
+        self.assertEqual(message["To"], "reports@example.com")
+
     def test_email_failure_reports_stage_without_secret_values(self):
         self._set_email_environment(587)
         server = MagicMock()

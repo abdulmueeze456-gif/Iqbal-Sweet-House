@@ -330,8 +330,12 @@ def send_email(subject: str, plain: str, html_body: str) -> None:
     recipient = (os.environ.get("REPORT_TO_EMAIL") or RECIPIENT_DEFAULT).strip()
     if not recipient:
         recipient = RECIPIENT_DEFAULT
-    if recipient.lower() != RECIPIENT_DEFAULT:
-        raise ReportError("REPORT_TO_EMAIL must be iqbalsweethouse1@gmail.com.")
+    if (
+        recipient.count("@") != 1
+        or any(character.isspace() for character in recipient)
+        or any(character in recipient for character in ",;<>")
+    ):
+        raise ReportError("REPORT_TO_EMAIL must be a single email address.")
     sender = os.environ["REPORT_FROM_EMAIL"].strip()
     try:
         port = int(os.environ["SMTP_PORT"])
