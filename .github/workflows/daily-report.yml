@@ -10,6 +10,11 @@ on:
         description: "Report date in YYYY-MM-DD (leave blank for yesterday in Pakistan)"
         required: false
         type: string
+      dry_run:
+        description: "Generate and check the report without sending another email"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -50,3 +55,4 @@ jobs:
           REPORT_TO_EMAIL: ${{ secrets.REPORT_TO_EMAIL }}
           REPORT_FROM_EMAIL: ${{ secrets.REPORT_FROM_EMAIL }}
           REPORT_DATE: ${{ github.event.inputs.report_date }}
+          REPORT_DRY_RUN: ${{ github.event.inputs.dry_run }}

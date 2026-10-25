@@ -63,6 +63,18 @@ class DailyReportTests(unittest.TestCase):
         self.assertIn("PermissionDenied", body)
         self.assertIn("Viewer permission", plain)
 
+    def test_dry_run_generates_report_without_sending_email(self):
+        ga = {
+            "page_views": 10, "users": 6, "sessions": 8, "add_to_cart": 2,
+            "checkouts": 1, "purchases": 1, "purchase_revenue": 200,
+        }
+        with patch.dict("os.environ", {"REPORT_DATE": "2026-10-24", "REPORT_DRY_RUN": "true"}):
+            with patch.object(report, "get_firestore_orders", return_value=[]):
+                with patch.object(report, "get_ga4_report", return_value=ga):
+                    with patch.object(report, "send_email") as send_email:
+                        self.assertEqual(report.main(), 0)
+        send_email.assert_not_called()
+
     def _set_email_environment(self, port):
         values = {
             "SMTP_HOST": "smtp.gmail.com",

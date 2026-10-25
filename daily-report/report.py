@@ -397,6 +397,7 @@ def send_email(subject: str, plain: str, html_body: str) -> None:
 def main() -> int:
     try:
         day = report_day(os.environ.get("REPORT_DATE"))
+        dry_run = os.environ.get("REPORT_DRY_RUN", "").strip().lower() in {"1", "true", "yes"}
         orders = summarize_orders(get_firestore_orders(day), day)
         ga: dict[str, Any] | None
         ga_error = None
@@ -405,7 +406,11 @@ def main() -> int:
         except ReportError as exc:
             ga = None
             ga_error = str(exc)
+            print(f"GA4 data unavailable: {ga_error}", file=sys.stderr)
         plain, html_body = render_report(day, ga, orders, ga_error)
+        if dry_run:
+            print(f"Report generated for {day.isoformat()}; email skipped (dry run).")
+            return 2 if ga is None else 0
         subject = f"Iqbal Sweet House Daily Report — {day.isoformat()}"
         send_email(subject, plain, html_body)
         print(f"Daily report email sent for {day.isoformat()} to configured recipient.")
