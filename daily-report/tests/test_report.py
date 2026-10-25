@@ -114,11 +114,11 @@ class DailyReportTests(unittest.TestCase):
         self._set_email_environment(587)
         server = MagicMock()
         server.__enter__.return_value = server
-        server.login.side_effect = RuntimeError("private server response")
+        server.login.side_effect = report.smtplib.SMTPServerDisconnected("private server response")
         with patch.object(report.smtplib, "SMTP", return_value=server):
             with self.assertRaisesRegex(
                 report.ReportError,
-                r"SMTP authentication \(RuntimeError\)",
+                r"SMTP authentication \(SMTPServerDisconnected\).*current App Password",
             ) as caught:
                 report.send_email("subject", "plain", "<p>html</p>")
         self.assertNotIn("unit-test-password", str(caught.exception))

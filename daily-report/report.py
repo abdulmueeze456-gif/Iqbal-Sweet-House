@@ -113,6 +113,7 @@ def get_firestore_orders(day: date) -> list[dict[str, Any]]:
     try:
         import firebase_admin
         from firebase_admin import credentials, firestore
+        from google.cloud.firestore_v1.base_query import FieldFilter
 
         try:
             app = firebase_admin.get_app("daily-report")
@@ -123,8 +124,8 @@ def get_firestore_orders(day: date) -> list[dict[str, Any]]:
         start, end = day_bounds_utc(day)
         orders_query = (
             firestore.client(app).collection("orders")
-            .where("createdAt", ">=", start)
-            .where("createdAt", "<", end)
+            .where(filter=FieldFilter("createdAt", ">=", start))
+            .where(filter=FieldFilter("createdAt", "<", end))
         )
         return [snapshot.to_dict() or {} for snapshot in orders_query.stream()]
     except Exception as exc:
