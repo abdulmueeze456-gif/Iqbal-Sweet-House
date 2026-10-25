@@ -1,0 +1,4 @@
+firebase-admin>=6.5,<8
+google-analytics-data>=0.18,<1
+google-auth>=2.30,<3
+tzdata>=2024.1
