@@ -19,9 +19,14 @@ class DailyReportTests(unittest.TestCase):
     def test_firestore_orders_are_filtered_by_pakistan_day(self):
         day = date(2026, 10, 24)
         orders = [
+            # Pakistan day starts at 19:00 UTC on the previous date.
             {"createdAt": datetime(2026, 10, 23, 20, 0, tzinfo=timezone.utc), "total": 100, "status": "New"},
-            {"createdAt": datetime(2026, 10, 24, 20, 0, tzinfo=timezone.utc), "total": 50, "status": "Delivered"},
-            {"createdAt": datetime(2026, 10, 23, 19, 59, tzinfo=timezone.utc), "total": 90, "status": "Declined"},
+            # 18:00 UTC is 23:00 PKT, still inside Oct 24.
+            {"createdAt": datetime(2026, 10, 24, 18, 0, tzinfo=timezone.utc), "total": 50, "status": "Delivered"},
+            # Before the 19:00 UTC start; this declined order belongs to Oct 23 PKT.
+            {"createdAt": datetime(2026, 10, 23, 18, 59, tzinfo=timezone.utc), "total": 90, "status": "Declined"},
+            # Exactly at the next Pakistan day's start; the end is exclusive.
+            {"createdAt": datetime(2026, 10, 24, 19, 0, tzinfo=timezone.utc), "total": 70, "status": "Ready"},
         ]
         result = report.summarize_orders(orders, day)
         self.assertEqual(result["count"], 2)
