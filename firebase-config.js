@@ -127,6 +127,20 @@ window.firebaseUpdateDoc =
 window.firebaseDoc =
     doc;
 
+// Persist anonymous storefront funnel events for the admin analytics dashboard.
+window.trackStoreAnalytics = function (event) {
+    const payload = {
+        ...event,
+        createdAt: serverTimestamp()
+    };
+    return addDoc(collection(db, "analyticsEvents"), payload)
+        .catch(error => console.warn("Analytics event was not saved:", error));
+};
+
+if (Array.isArray(window.pendingStoreAnalytics)) {
+    window.pendingStoreAnalytics.splice(0).forEach(window.trackStoreAnalytics);
+}
+
 
 // Authentication functions
 
