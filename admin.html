@@ -195,6 +195,23 @@
             margin-bottom: 20px;
         }
 
+        .analytics-panel { margin: 18px 0 26px; padding: 20px; border: 1px solid #e8e8e8; border-radius: 14px; background: #fbfcff; }
+        .analytics-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+        .analytics-heading h2 { margin: 0; color: #24304f; }
+        #analyticsRange { min-height: 40px; padding: 8px 12px; border: 1px solid #ccc; border-radius: 8px; background: white; }
+        .analytics-cards { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+        .analytics-card { padding: 14px; background: white; border: 1px solid #eee; border-radius: 10px; }
+        .analytics-card span { display: block; color: #666; font-size: 13px; }
+        .analytics-card strong { display: block; margin-top: 7px; font-size: 24px; color: #b71c1c; }
+        .analytics-lower { display: grid; grid-template-columns: minmax(190px, .8fr) 1.2fr; align-items: center; gap: 24px; margin-top: 20px; }
+        .funnel-chart { width: min(100%, 240px); aspect-ratio: 1; margin: auto; display: grid; place-items: center; border-radius: 50%; background: conic-gradient(#087fca 0 72%, #15b65a 72% 82%, #7100c9 82% 90%, #f2db00 90% 96%, #ef5900 96% 100%); }
+        .funnel-hole { width: 66%; aspect-ratio: 1; display: grid; place-content: center; text-align: center; border-radius: 50%; background: white; box-shadow: 0 2px 10px #0002; }
+        .funnel-hole strong { font-size: 28px; }
+        .funnel-hole span { color: #777; }
+        .analytics-details h3 { margin: 0 0 10px; }
+        #topProducts { margin: 0; padding-left: 22px; color: #444; }
+        #analyticsStatus { margin-top: 12px; color: #777; font-size: 13px; }
+
         .stat-box {
             padding: 14px;
             border-radius: 10px;
@@ -291,6 +308,9 @@
             .order-stats {
                 grid-template-columns: 1fr 1fr;
             }
+
+            .analytics-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .analytics-lower { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -360,6 +380,35 @@
             </h2>
 
             <div class="notification-banner" id="notificationBanner"></div>
+
+            <section class="analytics-panel" aria-labelledby="analyticsTitle">
+                <div class="analytics-heading">
+                    <h2 id="analyticsTitle">Store Analytics</h2>
+                    <select id="analyticsRange" aria-label="Analytics date range">
+                        <option value="today">Today</option>
+                        <option value="7days" selected>Last 7 days</option>
+                        <option value="30days">Last 30 days</option>
+                        <option value="all">All time</option>
+                    </select>
+                </div>
+                <div class="analytics-cards">
+                    <div class="analytics-card"><span>Website visits</span><strong id="analyticsVisits">—</strong></div>
+                    <div class="analytics-card"><span>Cart additions</span><strong id="analyticsCarts">—</strong></div>
+                    <div class="analytics-card"><span>Products added</span><strong id="analyticsProducts">—</strong></div>
+                    <div class="analytics-card"><span>Checkout starts</span><strong id="analyticsCheckouts">—</strong></div>
+                    <div class="analytics-card"><span>Orders</span><strong id="analyticsOrders">—</strong></div>
+                </div>
+                <div class="analytics-lower">
+                    <div class="funnel-chart" id="analyticsChart" role="img" aria-label="Store activity chart">
+                        <div class="funnel-hole"><strong id="analyticsChartOrders">0</strong><span>Orders</span></div>
+                    </div>
+                    <div class="analytics-details">
+                        <h3>Most added products</h3>
+                        <ol id="topProducts"><li>Loading analytics…</li></ol>
+                        <div id="analyticsStatus" aria-live="polite">Analytics data is loading.</div>
+                    </div>
+                </div>
+            </section>
 
             <div class="order-stats">
                 <div class="stat-box"><span>Total</span><strong id="statTotal">0</strong></div>
@@ -466,6 +515,9 @@
     const statDelivered =
         document.getElementById("statDelivered");
 
+    const analyticsRange = document.getElementById("analyticsRange");
+    const analyticsStatus = document.getElementById("analyticsStatus");
+
     let allOrders = [];
     let previousOrderIds = new Set();
     let firstOrderLoad = true;
@@ -521,6 +573,84 @@
         }
 
         return null;
+    }
+
+    function getAnalyticsDateRange() {
+        const now = new Date();
+        const range = analyticsRange.value;
+        if (range === "today") {
+            const start = new Date(now);
+            start.setHours(0, 0, 0, 0);
+            return start;
+        }
+        if (range === "7days") return new Date(now.getTime() - 7 * 86400000);
+        if (range === "30days") return new Date(now.getTime() - 30 * 86400000);
+        return null;
+    }
+
+    async function loadAnalytics() {
+        analyticsStatus.textContent = "Loading analytics…";
+        try {
+            const eventsQuery = window.firebaseQuery(
+                window.firebaseCollection(window.firebaseDB, "analyticsEvents"),
+                window.firebaseOrderBy("createdAt", "desc")
+            );
+            const snapshot = await window.firebaseGetDocs(eventsQuery);
+            const start = getAnalyticsDateRange();
+            const events = [];
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                const date = data.createdAt && typeof data.createdAt.toDate === "function"
+                    ? data.createdAt.toDate()
+                    : null;
+                if (date && (!start || date >= start)) events.push(data);
+            });
+
+            const visits = events.filter(event => event.type === "visit").length;
+            const carts = events.filter(event => event.type === "add_to_cart").length;
+            const checkouts = events.filter(event => event.type === "begin_checkout").length;
+            const addedProducts = {};
+            events.filter(event => event.type === "add_to_cart").forEach(event => {
+                (event.items || []).forEach(item => {
+                    const name = String(item.name || "Product");
+                    addedProducts[name] = (addedProducts[name] || 0) + Number(item.quantity || 1);
+                });
+            });
+            const orders = allOrders.filter(entry => {
+                const date = getOrderDate(entry.order);
+                return date && (!start || date >= start);
+            }).length;
+
+            document.getElementById("analyticsVisits").textContent = visits.toLocaleString();
+            document.getElementById("analyticsCarts").textContent = carts.toLocaleString();
+            document.getElementById("analyticsProducts").textContent = Object.values(addedProducts).reduce((a, b) => a + b, 0).toLocaleString();
+            document.getElementById("analyticsCheckouts").textContent = checkouts.toLocaleString();
+            document.getElementById("analyticsOrders").textContent = orders.toLocaleString();
+            document.getElementById("analyticsChartOrders").textContent = orders.toLocaleString();
+
+            const chartValues = [visits, carts, Object.values(addedProducts).reduce((a, b) => a + b, 0), checkouts, orders];
+            const chartColors = ["#087fca", "#15b65a", "#7100c9", "#f2db00", "#ef5900"];
+            const total = chartValues.reduce((a, b) => a + b, 0);
+            let cursor = 0;
+            const slices = chartValues.map((value, index) => {
+                const next = cursor + (total ? value / total * 100 : 20);
+                const slice = `${chartColors[index]} ${cursor}% ${next}%`;
+                cursor = next;
+                return slice;
+            });
+            document.getElementById("analyticsChart").style.background = `conic-gradient(${slices.join(",")})`;
+
+            const topProducts = Object.entries(addedProducts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+            document.getElementById("topProducts").innerHTML = topProducts.length
+                ? topProducts.map(([name, count]) => `<li>${escapeHTML(name)} <strong>× ${count}</strong></li>`).join("")
+                : "<li>No product additions in this range.</li>";
+            analyticsStatus.textContent = events.length
+                ? `Based on ${events.length.toLocaleString()} tracked storefront actions. Visits are counted once per browser session.`
+                : "No tracked activity in this range yet. Tracking starts after this update is published.";
+        } catch (error) {
+            console.error("Analytics loading failed:", error);
+            analyticsStatus.textContent = "Analytics could not load. Check Firebase access and try refreshing.";
+        }
     }
 
 
@@ -1185,6 +1315,7 @@ async function setupFCM() {
 
             updateStats();
             renderOrders();
+            await loadAnalytics();
 
             previousOrderIds = nextIds;
 
@@ -1377,6 +1508,8 @@ async function setupFCM() {
             loadOrders();
         }
     );
+
+    analyticsRange.addEventListener("change", loadAnalytics);
 
     notificationSetting.addEventListener(
         "change",
