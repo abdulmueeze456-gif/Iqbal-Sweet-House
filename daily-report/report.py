@@ -113,6 +113,7 @@ def get_firestore_orders(day: date) -> list[dict[str, Any]]:
     try:
         import firebase_admin
         from firebase_admin import credentials, firestore
+        from google.cloud.firestore_v1.base_query import FieldFilter
 
         try:
             app = firebase_admin.get_app("daily-report")
@@ -123,8 +124,8 @@ def get_firestore_orders(day: date) -> list[dict[str, Any]]:
         start, end = day_bounds_utc(day)
         orders_query = (
             firestore.client(app).collection("orders")
-            .where("createdAt", ">=", start)
-            .where("createdAt", "<", end)
+            .where(filter=FieldFilter("createdAt", ">=", start))
+            .where(filter=FieldFilter("createdAt", "<", end))
         )
         return [snapshot.to_dict() or {} for snapshot in orders_query.stream()]
     except Exception as exc:
@@ -329,8 +330,12 @@ def send_email(subject: str, plain: str, html_body: str) -> None:
     recipient = (os.environ.get("REPORT_TO_EMAIL") or RECIPIENT_DEFAULT).strip()
     if not recipient:
         recipient = RECIPIENT_DEFAULT
-    if recipient.lower() != RECIPIENT_DEFAULT:
-        raise ReportError("REPORT_TO_EMAIL must be iqbalsweethouse1@gmail.com.")
+    if (
+        recipient.count("@") != 1
+        or any(character.isspace() for character in recipient)
+        or any(character in recipient for character in ",;<>")
+    ):
+        raise ReportError("REPORT_TO_EMAIL must be a single email address.")
     sender = os.environ["REPORT_FROM_EMAIL"].strip()
     try:
         port = int(os.environ["SMTP_PORT"])
@@ -343,25 +348,56 @@ def send_email(subject: str, plain: str, html_body: str) -> None:
     message["To"] = recipient
     message.set_content(plain)
     message.add_alternative(html_body, subtype="html")
+    if port not in {465, 587}:
+        raise ReportError("SMTP_PORT must be 465 (implicit TLS) or 587 (STARTTLS).")
+
+    host = os.environ["SMTP_HOST"].strip()
+    username = os.environ["SMTP_USERNAME"].strip()
+    password = os.environ["SMTP_PASSWORD"].strip()
+    if host.lower() == "smtp.gmail.com":
+        # Google displays App Passwords in groups; tolerate pasted spaces/newlines.
+        password = "".join(password.split())
+    stage = "SMTP connection"
     try:
         if port == 465:
-            with smtplib.SMTP_SSL(os.environ["SMTP_HOST"], port, context=ssl.create_default_context(), timeout=30) as server:
-                server.login(os.environ["SMTP_USERNAME"], os.environ["SMTP_PASSWORD"])
+            # Gmail port 465 uses implicit TLS during the connection handshake.
+            stage = "SMTP connection / implicit TLS negotiation"
+            with smtplib.SMTP_SSL(
+                host, port, context=ssl.create_default_context(), timeout=30
+            ) as server:
+                stage = "SMTP authentication"
+                server.login(username, password)
+                stage = "SMTP message sending"
                 server.send_message(message)
         else:
-            with smtplib.SMTP(os.environ["SMTP_HOST"], port, timeout=30) as server:
+            # Gmail port 587 connects in cleartext, then upgrades with STARTTLS.
+            with smtplib.SMTP(host, port, timeout=30) as server:
+                stage = "SMTP TLS negotiation"
                 server.ehlo()
                 server.starttls(context=ssl.create_default_context())
                 server.ehlo()
-                server.login(os.environ["SMTP_USERNAME"], os.environ["SMTP_PASSWORD"])
+                stage = "SMTP authentication"
+                server.login(username, password)
+                stage = "SMTP message sending"
                 server.send_message(message)
     except Exception as exc:
-        raise ReportError(f"Email delivery failed ({type(exc).__name__}).") from exc
+        # Report only the phase and exception class. Never log server text,
+        # addresses, credentials, or message contents from the exception.
+        hint = ""
+        if stage == "SMTP authentication" and isinstance(exc, smtplib.SMTPServerDisconnected):
+            hint = (
+                " Gmail closed the connection during authentication; verify that SMTP_USERNAME "
+                "is the full Gmail address and SMTP_PASSWORD is that account's current App Password."
+            )
+        raise ReportError(
+            f"Email delivery failed during {stage} ({type(exc).__name__}).{hint}"
+        ) from exc
 
 
 def main() -> int:
     try:
         day = report_day(os.environ.get("REPORT_DATE"))
+        dry_run = os.environ.get("REPORT_DRY_RUN", "").strip().lower() in {"1", "true", "yes"}
         orders = summarize_orders(get_firestore_orders(day), day)
         ga: dict[str, Any] | None
         ga_error = None
@@ -370,7 +406,11 @@ def main() -> int:
         except ReportError as exc:
             ga = None
             ga_error = str(exc)
+            print(f"GA4 data unavailable: {ga_error}", file=sys.stderr)
         plain, html_body = render_report(day, ga, orders, ga_error)
+        if dry_run:
+            print(f"Report generated for {day.isoformat()}; email skipped (dry run).")
+            return 2 if ga is None else 0
         subject = f"Iqbal Sweet House Daily Report — {day.isoformat()}"
         send_email(subject, plain, html_body)
         print(f"Daily report email sent for {day.isoformat()} to configured recipient.")
