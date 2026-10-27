@@ -2,6 +2,7 @@ import sys
 import unittest
 from datetime import date, datetime, timezone
 from pathlib import Path
+from unittest.mock import MagicMock, patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import report
@@ -62,7 +63,135 @@ class DailyReportTests(unittest.TestCase):
         self.assertIn("PermissionDenied", body)
         self.assertIn("Viewer permission", plain)
 
+    def test_dry_run_generates_report_without_sending_email(self):
+        ga = {
+            "page_views": 10, "users": 6, "sessions": 8, "add_to_cart": 2,
+            "checkouts": 1, "purchases": 1, "purchase_revenue": 200,
+        }
+        with patch.dict("os.environ", {"REPORT_DATE": "2026-10-24", "REPORT_DRY_RUN": "true"}):
+            with patch.object(report, "get_firestore_orders", return_value=[]):
+                with patch.object(report, "get_ga4_report", return_value=ga):
+                    with patch.object(report, "send_email") as send_email:
+                        self.assertEqual(report.main(), 0)
+        send_email.assert_not_called()
+
+    def _set_email_environment(self, port):
+        values = {
+            "SMTP_HOST": "smtp.gmail.com",
+            "SMTP_PORT": str(port),
+            "SMTP_USERNAME": "sender@example.com",
+            "SMTP_PASSWORD": "unit-test-password",
+            "REPORT_FROM_EMAIL": "sender@example.com",
+            "REPORT_TO_EMAIL": report.RECIPIENT_DEFAULT,
+        }
+        self.env_patcher = patch.dict("os.environ", values, clear=False)
+        self.env_patcher.start()
+        self.addCleanup(self.env_patcher.stop)
+
+    def test_email_uses_gmail_465_implicit_tls(self):
+        self._set_email_environment(465)
+        server = MagicMock()
+        server.__enter__.return_value = server
+        with patch.object(report.smtplib, "SMTP_SSL", return_value=server) as smtp_ssl:
+            report.send_email("subject", "plain", "<p>html</p>")
+        smtp_ssl.assert_called_once()
+        self.assertEqual(smtp_ssl.call_args.args[:2], ("smtp.gmail.com", 465))
+        server.login.assert_called_once_with("sender@example.com", "unit-test-password")
+        server.send_message.assert_called_once()
+
+    def test_email_normalizes_spaced_gmail_app_password(self):
+        self._set_email_environment(587)
+        import os
+        os.environ["SMTP_USERNAME"] = " sender@example.com "
+        os.environ["SMTP_PASSWORD"] = " abcd efgh ijkl mnop\n"
+        server = MagicMock()
+        server.__enter__.return_value = server
+        with patch.object(report.smtplib, "SMTP", return_value=server):
+            report.send_email("subject", "plain", "<p>html</p>")
+        server.login.assert_called_once_with("sender@example.com", "abcdefghijklmnop")
+
+    def test_email_uses_gmail_587_starttls(self):
+        self._set_email_environment(587)
+        server = MagicMock()
+        server.__enter__.return_value = server
+        with patch.object(report.smtplib, "SMTP", return_value=server) as smtp:
+            report.send_email("subject", "plain", "<p>html</p>")
+        smtp.assert_called_once_with("smtp.gmail.com", 587, timeout=30)
+        server.ehlo.assert_called()
+        server.starttls.assert_called_once()
+        server.login.assert_called_once_with("sender@example.com", "unit-test-password")
+        server.send_message.assert_called_once()
+
+    def test_email_uses_configured_report_recipient(self):
+        self._set_email_environment(587)
+        import os
+        os.environ["REPORT_TO_EMAIL"] = "reports@example.com"
+        server = MagicMock()
+        server.__enter__.return_value = server
+        with patch.object(report.smtplib, "SMTP", return_value=server):
+            report.send_email("subject", "plain", "<p>html</p>")
+        message = server.send_message.call_args.args[0]
+        self.assertEqual(message["To"], "reports@example.com")
+
+    def test_email_failure_reports_stage_without_secret_values(self):
+        self._set_email_environment(587)
+        server = MagicMock()
+        server.__enter__.return_value = server
+        server.login.side_effect = report.smtplib.SMTPServerDisconnected("private server response")
+        with patch.object(report.smtplib, "SMTP", return_value=server):
+            with self.assertRaisesRegex(
+                report.ReportError,
+                r"SMTP authentication \(SMTPServerDisconnected\).*current App Password",
+            ) as caught:
+                report.send_email("subject", "plain", "<p>html</p>")
+        self.assertNotIn("unit-test-password", str(caught.exception))
+        self.assertNotIn("private server response", str(caught.exception))
+
+    def test_email_tls_failure_reports_tls_stage(self):
+        self._set_email_environment(587)
+        server = MagicMock()
+        server.__enter__.return_value = server
+        server.starttls.side_effect = RuntimeError("private TLS response")
+        with patch.object(report.smtplib, "SMTP", return_value=server):
+            with self.assertRaisesRegex(
+                report.ReportError,
+                r"SMTP TLS negotiation \(RuntimeError\)",
+            ) as caught:
+                report.send_email("subject", "plain", "<p>html</p>")
+        self.assertNotIn("private TLS response", str(caught.exception))
+
+    def test_email_send_failure_reports_send_stage(self):
+        self._set_email_environment(587)
+        server = MagicMock()
+        server.__enter__.return_value = server
+        server.send_message.side_effect = RuntimeError("private send response")
+        with patch.object(report.smtplib, "SMTP", return_value=server):
+            with self.assertRaisesRegex(
+                report.ReportError,
+                r"SMTP message sending \(RuntimeError\)",
+            ) as caught:
+                report.send_email("subject", "plain", "<p>html</p>")
+        self.assertNotIn("private send response", str(caught.exception))
+
+    def test_email_connection_failure_reports_connection_stage(self):
+        self._set_email_environment(587)
+        with patch.object(
+            report.smtplib,
+            "SMTP",
+            side_effect=report.smtplib.SMTPServerDisconnected("private connection response"),
+        ):
+            with self.assertRaisesRegex(
+                report.ReportError,
+                r"SMTP connection \(SMTPServerDisconnected\)",
+            ) as caught:
+                report.send_email("subject", "plain", "<p>html</p>")
+        self.assertNotIn("private connection response", str(caught.exception))
+
+    def test_email_rejects_unsupported_smtp_port(self):
+        self._set_email_environment(25)
+        with self.assertRaisesRegex(report.ReportError, r"SMTP_PORT must be 465.*or 587"):
+            report.send_email("subject", "plain", "<p>html</p>")
+
 
 if __name__ == "__main__":
     unittest.main()
-
