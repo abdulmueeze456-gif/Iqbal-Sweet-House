@@ -11,6 +11,29 @@
     let cart =
         JSON.parse(localStorage.getItem("iqbalCart")) || [];
 
+    // Anonymous funnel events queue until Firebase finishes initializing.
+    function recordStoreAnalytics(eventType, details = {}) {
+        let sessionId = sessionStorage.getItem("iqbalAnalyticsSession");
+        if (!sessionId) {
+            sessionId = window.crypto && crypto.randomUUID
+                ? crypto.randomUUID()
+                : String(Date.now()) + Math.random().toString(36).slice(2);
+            sessionStorage.setItem("iqbalAnalyticsSession", sessionId);
+        }
+        const event = { type: eventType, sessionId, page: location.pathname, ...details };
+        if (typeof window.trackStoreAnalytics === "function") {
+            window.trackStoreAnalytics(event);
+        } else {
+            window.pendingStoreAnalytics = window.pendingStoreAnalytics || [];
+            window.pendingStoreAnalytics.push(event);
+        }
+    }
+
+    if (!sessionStorage.getItem("iqbalVisitRecorded")) {
+        sessionStorage.setItem("iqbalVisitRecorded", "1");
+        recordStoreAnalytics("visit");
+    }
+
 
     function saveCart() {
 
@@ -496,6 +519,9 @@ if (trackedItem) {
         modalQuantity,
         selectedWeight
     );
+    recordStoreAnalytics("add_to_cart", {
+        items: [{ name: trackedItem.name, price: Number(trackedItem.price), quantity: modalQuantity, weight: selectedWeight }]
+    });
 }
 
 closeProductModal();
@@ -557,6 +583,9 @@ function trackAddToCart(name, price, quantity = 1, weight = 1) {
         }
         saveCart();
         updateCartCount();
+        recordStoreAnalytics("add_to_cart", {
+            items: [{ name, price: Number(price), quantity: 1, weight }]
+        });
         showCartAddedMessage();
     }
 
@@ -566,83 +595,7 @@ function trackAddToCart(name, price, quantity = 1, weight = 1) {
     ===================================================== */
 
     function showCartAddedMessage() {
-
-        /* =========================
-        GREEN SUCCESS POPUP
-        ========================= */
-
-        const toast = document.getElementById("cart-toast");
-
-
-        if (toast) {
-
-            /* Force popup to front */
-
-            toast.style.display = "flex";
-            toast.style.position = "fixed";
-
-            toast.style.left = "50%";
-            toast.style.bottom = "90px";
-
-            toast.style.transform =
-                "translateX(-50%)";
-
-            toast.style.background =
-                "#18a83b";
-
-            toast.style.color =
-                "#ffffff";
-
-            toast.style.padding =
-                "12px 24px";
-
-            toast.style.borderRadius =
-                "25px";
-
-            toast.style.fontSize =
-                "17px";
-
-            toast.style.fontWeight =
-                "bold";
-
-            toast.style.lineHeight =
-                "1.2";
-
-            toast.style.whiteSpace =
-                "nowrap";
-
-            toast.style.zIndex =
-                "999999";
-
-            toast.style.visibility =
-                "visible";
-
-            toast.style.opacity =
-                "1";
-
-            toast.style.pointerEvents =
-                "none";
-
-
-            /* Restart timer every time */
-
-            clearTimeout(
-                window.cartToastTimer
-            );
-
-
-            window.cartToastTimer =
-                setTimeout(() => {
-
-                    toast.style.opacity = "0";
-
-                    toast.style.visibility = "hidden";
-
-                    toast.style.display = "none";
-
-                }, 3000);
-
-        }
+        // Keep the cart action silent; the floating cart bar shows the updated total.
 
 
         /* =========================
@@ -1004,6 +957,15 @@ function trackAddToCart(name, price, quantity = 1, weight = 1) {
     }
 
     saveCart();
+
+    recordStoreAnalytics("begin_checkout", {
+        items: cart.map(item => ({
+            name: item.name,
+            price: Number(item.price),
+            quantity: Number(item.quantity),
+            weight: item.weight || 1
+        }))
+    });
 
     if (typeof gtag === "function") {
         gtag("event", "begin_checkout", {
